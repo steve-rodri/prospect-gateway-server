@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS Competitions (
   user_id INT NOT NULL,
   competition_id INT NOT NULL,
   competition_type_id INT NOT NULL,
-  start_time TIMESTAMP NOT NULL,
-  end_time TIMESTAMP NOT NULL,
+  start_time VARCHAR(50) NOT NULL,
+  end_time VARCHAR(50) NOT NULL,
   user_result VARCHAR(1) NOT NULL,
   FOREIGN KEY(user_id)
     REFERENCES Users(id),
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS Athletes (
   position VARCHAR(5) NOT NULL,
   origin VARCHAR(50) NOT NULL,
   team_abbr VARCHAR(3) NOT NULL,
-  last_updated TIMESTAMP WITH TIME ZONE NOT NULL,
+  last_updated VARCHAR(50) NOT NULL,
   image_url VARCHAR(200) NOT NULL,
   point_average DECIMAL,
   rebound_average DECIMAL,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS Holdings (
   user_id INT NOT NULL,
   athlete_id INT NOT NULL,
   share_amt FLOAT NOT NULL,
-  purchase_date TIMESTAMP NOT NULL,
+  purchase_date VARCHAR(50) NOT NULL,
   FOREIGN KEY(user_id)
     REFERENCES Users(id),
   FOREIGN KEY(athlete_id)
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS Holdings (
 CREATE TABLE IF NOT EXISTS Stock_Prices (
   id serial UNIQUE PRIMARY KEY NOT NULL,
   athlete_id INT NOT NULL,
-  date TIMESTAMP NOT NULL,
+  date VARCHAR(50) NOT NULL,
   price DECIMAL NOT NULL,
   FOREIGN KEY(athlete_id)
     REFERENCES Athletes(id)
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS Athletes_Used_In_Competition (
     REFERENCES Athletes(id)
 );
 
-CREATE TABLE IF NOT EXISTS Friends (
+CREATE TABLE IF NOT EXISTS Friendships (
   id serial UNIQUE PRIMARY KEY NOT NULL,
   user_one_id INT NOT NULL,
   user_two_id INT NOT NULL,
@@ -105,10 +105,29 @@ CREATE TABLE IF NOT EXISTS Notifications (
   type_id INT NOT NULL,
   sender_id INT NOT NULL,
   recipient_id INT NOT NULL,
-  date_sent TIMESTAMP NOT NULL,
+  date_sent VARCHAR(50) NOT NULL,
   status VARCHAR(10) NOT NULL,
+  key VARCHAR(30) NOT NULL,
   FOREIGN KEY(recipient_id)
     REFERENCES Users(id),
   FOREIGN KEY(sender_id)
     REFERENCES Users(id)
+);
+
+INSERT INTO Notification_Types(name)
+VALUES('friendship'),('competition');
+
+INSERT INTO Users(username, email, password, wallet_balance, total_holdings_value)
+VALUES (
+  'knissley',
+  'knissley@test',
+  'password123',
+  5000.00,
+  5600.00
+), (
+  'testuser',
+  'testuser@test',
+  'password321',
+  4000.00,
+  8000.00
 );

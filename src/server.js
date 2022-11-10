@@ -2,6 +2,7 @@ import * as express from 'express';
 // import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import { getOneAthlete, createAthlete } from './models/athletes';
+import { createNotification, updateNotification } from './models/notifications';
 
 let PORT = 5500;
 
@@ -16,7 +17,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// TODO: build a jwt verification middleware (or find a package)
+// TODO: build a jwt verification middleware (or find a package) -- this will be in one level higher -- gateway
 
 app.get("/api/v0/athlete", async (req, res) => {
   const { first, last, suffix } = req.query;
@@ -33,6 +34,7 @@ app.post("/api/v0/athletes(/:athleteId)?", async (req, res) => {
   const { firstName, lastName, suffix } = req.body;
   try {
     await createAthlete(firstName, lastName, suffix);
+    // should post send back athlete?
     res.sendStatus(200);
   } catch (e) {
     console.log('Error in createAthlete: ', e);
@@ -40,7 +42,40 @@ app.post("/api/v0/athletes(/:athleteId)?", async (req, res) => {
   }
 });
 
+// post - send notification
+// update - accept/reject notification
+  // if the notification is a friend request, insert into friends table
+  // if the notification is a competition invite, figure out that logic
+  // what other notifications might we have? will all we "interactive"?
 
+
+// body: { notificationName: ["friend", "competition", "etc."], sender: "knissley", recipient: "esabini" }
+app.post("/api/v0/notification", async (req, res) => {
+  const {notificationName, senderName, recipientName} = req.body;
+  try {
+    await createNotification(notificationName, senderName, recipientName);
+    res.sendStatus(200);
+  } catch (e) {
+    console.log('Error in notification post: ', e);
+    res.sendStatus(400);
+  }
+});
+
+// body: { newStatus: ["rejected", "pending", "success"] }
+app.patch("/api/v0/notification/:notificationId", async (req, res) => {
+  const { notificationId } = req.params;
+  const { newStatus } = req.body;
+
+  if (!notificationId) res.sendStatus(400);
+
+  try {
+    await updateNotification(notificationId, newStatus);
+    res.sendStatus(200);
+  } catch (e) {
+    console.log('Error updating notification: ', e);
+    res.sendStatus(400);
+  }
+});
 
 // get by ID, not currently needed
 // app.get("/api/v0/athletes(/:athleteId)?", async (req, res) => {

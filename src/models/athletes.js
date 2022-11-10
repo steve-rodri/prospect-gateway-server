@@ -52,15 +52,16 @@ export const getOneAthlete = async (firstName, lastName, suffix) => {
       // if athlete found in db, evaluate whether the data is stale
       const timeElapsedSinceUpdate = new Date().getTime() - new Date(athlete.last_updated).getTime();
 
-      console.log(timeElapsedSinceUpdate / (60 * 60 * 1000));
-      const shouldRefresh = timeElapsedSinceUpdate / (60 * 60 * 1000) > HOURS_TO_STALE;
+      // convert timeElapsed (milliseconds) to hours, compare to stale limit
+      const shouldRefresh = timeElapsedSinceUpdate / (60 * 60 * 1000) >= HOURS_TO_STALE;
 
       // if not stale, simply return
       if (!shouldRefresh) {
         return athlete;
       }
-    }
 
+      console.log('Data was stale, re-fetching...');
+    }
 
     // if there was no athlete in the database or the data was stale, fetch from api server and store in db, return athlete
     await createAthlete(firstName, lastName, suffix);
