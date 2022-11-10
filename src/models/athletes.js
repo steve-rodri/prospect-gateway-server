@@ -32,6 +32,7 @@ export const createAthleteModel = async (firstName, lastName, suffix) => {
       turnover_average: data.career_averages.turnover_average,
     })
   } else {
+    // TODO: use last updated to determine if should fetch from nba_api and update data
     const getLastUpdatedQuery = dbc('athletes').select('last_updated').where('id', '=', athleteId);
     const lastUpdated = await getLastUpdatedQuery;
   }
@@ -47,7 +48,10 @@ export const getOneAthleteModel = async (firstName, lastName, suffix) => {
     const getOneQuery = dbc('athletes').whereILike('name', `%${fullName}%`);
     let athlete = (await getOneQuery)[0];
     if (athlete) {
-      console.log('athlete was found');
+      const updateAccessedQuery = dbc('athletes').whereILike('name', `%${fullName}%`).update({
+        last_accessed: new Date().toISOString(),
+      })
+      await updateAccessedQuery;
       return athlete;
     } else {
       console.log('athlete was not found');
