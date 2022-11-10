@@ -45,7 +45,6 @@ CREATE TABLE IF NOT EXISTS Athletes (
   origin VARCHAR(50) NOT NULL,
   team_abbr VARCHAR(3) NOT NULL,
   last_updated TIMESTAMP NOT NULL,
-  last_accessed TIMESTAMP NOT NULL,
   image_url VARCHAR(200) NOT NULL,
   point_average DECIMAL,
   rebound_average DECIMAL,
@@ -84,4 +83,32 @@ CREATE TABLE IF NOT EXISTS Athletes_Used_In_Competition (
     REFERENCES Competitions(id),
   FOREIGN KEY(athlete_id)
     REFERENCES Athletes(id)
+);
+
+CREATE TABLE IF NOT EXISTS Friends (
+  id serial UNIQUE PRIMARY KEY NOT NULL,
+  user_one_id INT NOT NULL,
+  user_two_id INT NOT NULL,
+  FOREIGN KEY(user_one_id)
+    REFERENCES Users(id),
+  FOREIGN KEY(user_two_id)
+    REFERENCES Users(id)
+);
+
+CREATE TABLE IF NOT EXISTS Notification_Types (
+  id serial UNIQUE PRIMARY KEY NOT NULL,
+  name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Notifications (
+  id serial UNIQUE PRIMARY KEY NOT NULL,
+  type_id INT NOT NULL,
+  sender_id INT NOT NULL,
+  recipient_id INT NOT NULL,
+  date_sent TIMESTAMP NOT NULL,
+  status VARCHAR(10) NOT NULL,
+  FOREIGN KEY(recipient_id)
+    REFERENCES Users(id),
+  FOREIGN KEY(sender_id)
+    REFERENCES Users(id)
 );
