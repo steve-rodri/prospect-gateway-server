@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
-import athletes from './controllers/athletes';
+import {createAthleteController, getOneAthleteController} from './controllers/athletes';
 
 let PORT = 5500;
 
@@ -29,11 +29,11 @@ app.get("/api/v0/athletes(/:athleteId)?", async (req, res) => {
 });
 
 app.get("/api/v0/athlete", (req, res) => {
-  athletes.getOne(req, res);
+  getOneAthleteController(req, res);
 })
 
 app.post("/api/v0/athletes(/:athleteId)?", (req, res) => {
-  athletes.createAthlete(req, res);
+  createAthleteController(req, res);
 });
 
 console.log(`Listening on ${PORT}...`);
