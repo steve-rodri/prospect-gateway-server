@@ -31,8 +31,8 @@ export const createAthlete = async (firstName, lastName, suffix) => {
     })
   } else {
     // TODO: use last updated to determine if should fetch from nba_api and update data
-    const getLastUpdatedQuery = dbc('athletes').select('last_updated').where('id', '=', athleteId);
-    const lastUpdated = await getLastUpdatedQuery;
+    // const getLastUpdatedQuery = dbc('athletes').select('last_updated').where('id', '=', athleteId);
+    // const lastUpdated = await getLastUpdatedQuery;
     // if lastUpdated was 24+hrs ago, re-fetch
   }
 };
