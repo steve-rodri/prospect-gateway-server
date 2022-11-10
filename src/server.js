@@ -16,17 +16,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.get("/api/v0/athletes(/:athleteId)?", async (req, res) => {
-//   const athleteId = req.params.athleteId;
-//   if (!athleteId) {
-//     // get all
-//     // should this even be allowed? would be 100's of athletes
-//     res.send(404, 'must provide athlete id');
-//   } else {
-//     // get by Id
-
-//   }
-// });
+// TODO: build a jwt verification middleware (or find a package)
 
 app.get("/api/v0/athlete", async (req, res) => {
   const { first, last, suffix } = req.query;
@@ -46,9 +36,24 @@ app.post("/api/v0/athletes(/:athleteId)?", async (req, res) => {
     res.sendStatus(200);
   } catch (e) {
     console.log('Error in createAthlete: ', e);
-    res.sendState(400);
+    res.sendStatus(400);
   }
 });
+
+
+
+// get by ID, not currently needed
+// app.get("/api/v0/athletes(/:athleteId)?", async (req, res) => {
+//   const athleteId = req.params.athleteId;
+//   if (!athleteId) {
+//     // get all
+//     // should this even be allowed? would be 100's of athletes
+//     res.send(404, 'must provide athlete id');
+//   } else {
+//     // get by Id
+
+//   }
+// });
 
 console.log(`Listening on ${PORT}...`);
 app.listen(PORT)

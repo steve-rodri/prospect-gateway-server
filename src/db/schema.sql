@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS Athletes (
   position VARCHAR(5) NOT NULL,
   origin VARCHAR(50) NOT NULL,
   team_abbr VARCHAR(3) NOT NULL,
-  last_updated TIMESTAMP NOT NULL,
+  last_updated TIMESTAMP WITH TIME ZONE NOT NULL,
   image_url VARCHAR(200) NOT NULL,
   point_average DECIMAL,
   rebound_average DECIMAL,

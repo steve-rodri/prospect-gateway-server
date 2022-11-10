@@ -2,6 +2,9 @@ import { NBA_API_BASE } from '../constants';
 import dbc from '../db/dbc';
 import axios from 'axios';
 
+// set the hour limit until data is considered stale
+const HOURS_TO_STALE = 24;
+
 export const createAthlete = async (firstName, lastName, suffix) => {
   const athleteIdUrl = `${NBA_API_BASE}/athleteid?first=${firstName}&last=${lastName}&suffix=${suffix}`;
   const athleteIdData = await axios.get(athleteIdUrl);
@@ -45,12 +48,24 @@ export const getOneAthlete = async (firstName, lastName, suffix) => {
     // %name% important for cases with suffixes containing '.' (jr., sr.)
     const getOneQuery = dbc('athletes').whereILike('name', `%${fullName}%`);
     let athlete = (await getOneQuery)[0];
-    if (athlete) return athlete;
+    if (athlete) {
+      // if athlete found in db, evaluate whether the data is stale
+      const timeElapsedSinceUpdate = new Date().getTime() - new Date(athlete.last_updated).getTime();
+
+      console.log(timeElapsedSinceUpdate / (60 * 60 * 1000));
+      const shouldRefresh = timeElapsedSinceUpdate / (60 * 60 * 1000) > HOURS_TO_STALE;
+
+      // if not stale, simply return
+      if (!shouldRefresh) {
+        return athlete;
+      }
+    }
 
 
-    // if there was no athlete in the database, fetch from api server and store in db, return athlete
+    // if there was no athlete in the database or the data was stale, fetch from api server and store in db, return athlete
     await createAthlete(firstName, lastName, suffix);
     athlete = (await getOneQuery)[0];
+
     return athlete;
 
   } catch (e) {
