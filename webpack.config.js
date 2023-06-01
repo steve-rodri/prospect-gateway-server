@@ -1,35 +1,29 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
-  entry: path.resolve(__dirname,'src/server.js'),
+  entry: path.resolve(__dirname, "src/server.ts"),
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: [
-          '/node_modules/',
-          '/database/'
-        ],
+        test: /\.(ts|tsx)$/,
+        exclude: ["/node_modules/", "/database/"],
         use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: [require('@babel/plugin-proposal-object-rest-spread')]
-          }
-        }
-      }
-    ]
+          loader: "ts-loader",
+        },
+      },
+    ],
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ["*", ".ts", ".tsx"],
   },
-  target: 'node', //http://community.openfl.org/t/target-node/9973
+  target: "node", //http://community.openfl.org/t/target-node/9973
   externals: {
-    knex: 'commonjs knex', //https://github.com/tgriesser/knex/issues/1128#issuecomment-312735118
-    express: 'commonjs express'
-  }
+    knex: "commonjs knex", //https://github.com/tgriesser/knex/issues/1128#issuecomment-312735118
+    express: "commonjs express",
+  },
 };
