@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "webpack --watch --mode development & nodemon dist/bundle.js"
+    "start": "doppler run -- nodemon src/server.ts",
+    "db:migrate": "doppler run -- npx prisma migrate dev"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^4.15.0",
     "axios": "^1.1.3",
     "cors": "^2.8.5",
     "express": "^4.18.2",
@@ -21,10 +23,12 @@
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.20.2",
+    "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/node": "^20.2.5",
     "babel-loader": "^9.1.0",
     "eslint": "^8.27.0",
+    "prisma": "^4.15.0",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.3"

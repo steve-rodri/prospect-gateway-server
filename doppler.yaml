@@ -1,0 +1,3 @@
+setup:
+  project: nba_gateway
+  config: dev_steve
