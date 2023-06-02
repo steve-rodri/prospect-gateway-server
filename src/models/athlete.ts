@@ -34,7 +34,6 @@ export const createAthlete = async (
         position: profile.data.position,
         origin: profile.data.origin,
         team_abbr: profile.data.team_abbr,
-        last_updated: new Date().toISOString(),
         image_url: profile.data.image_url,
         point_average: profile.data.career_averages.point_average,
         rebound_average: profile.data.career_averages.rebound_average,
@@ -67,7 +66,7 @@ export const getOneAthlete = async (
     if (athlete) {
       // if athlete found in db, evaluate whether the data is stale
       const timeElapsedSinceUpdate =
-        new Date().getTime() - new Date(athlete.last_updated).getTime();
+        new Date().getTime() - new Date(athlete.updatedAt).getTime();
 
       // convert timeElapsed (milliseconds) to hours, compare to stale limit
       const shouldRefresh =

@@ -68,7 +68,6 @@ model Athlete {
   block_average    Decimal?
   steal_average    Decimal?
   turnover_average Decimal?
-  last_updated     String               @db.VarChar(50)
   userHoldings     Holding[]
   stockData        StockPrice[]
   competitions     AthleteCompetition[]
