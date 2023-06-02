@@ -14,7 +14,7 @@ yarn
 
 ### Have Docker installed to run a postgres db
 
-![Docker Install Page](https://www.docker.com)
+[Docker Install Page](https://www.docker.com)
 
 Using Brew:
 
@@ -32,7 +32,7 @@ docker compose up
 
 ### Have Doppler Installed to use Environment Variables
 
-![Doppler Docs](https://docs.doppler.com/docs)
+[Doppler Docs](https://docs.doppler.com/docs)
 
 You need access to the prospectsportsinc workspace in order to access env vars
 
