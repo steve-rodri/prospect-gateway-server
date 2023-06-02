@@ -1,5 +1,5 @@
 import express from "express";
-// import * as cors from 'cors';
+import cors from "cors";
 import bodyParser from "body-parser";
 import { getOneAthlete, createAthlete } from "./models/athlete";
 import { createNotification, updateNotification } from "./models/notification";
@@ -12,16 +12,17 @@ import {
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
-app.use((_, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+// app.use((_, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
 
 // TODO: build a jwt verification middleware (or find a package) -- this will be in one level higher -- gateway
 
