@@ -16,7 +16,6 @@ model User {
   email                 String         @unique
   password              String         @db.VarChar(200)
   walletBalance         Decimal        @db.Money
-  totalHoldingsValue    Decimal        @default(0)
   holdings              Holding[]
   competitionUserOne    Competition[]  @relation(name: "competitionUserOne")
   competitionUserTwo    Competition[]  @relation(name: "competitionUserTwo")
@@ -27,59 +26,72 @@ model User {
 }
 
 model CompetitionType {
-  id             Int          @id @default(autoincrement())
-  name           String       @db.VarChar(40)
+  id             Int           @id @default(autoincrement())
+  name           String        @db.VarChar(40)
   athleteLimit   Int?
   moneyLimit     Decimal?
   durationInDays Int?
-  competition    Competition?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  competition    Competition[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 }
 
 model Competition {
   id                Int                  @id @default(autoincrement())
-  competitionType   CompetitionType      @relation(fields: [competitionTypeId], references: [id])
-  competitionTypeId Int                  @unique
+  competitionTypeId Int
+  userOneId         Int
+  userTwoId         Int
   active            Boolean              @default(true)
   startTime         DateTime             @default(now())
-  endTime           DateTime
-  userResult        String               @db.VarChar(1)
+  endTime           DateTime?
+  competitionType   CompetitionType      @relation(fields: [competitionTypeId], references: [id])
   athletes          AthleteCompetition[]
   userOne           User?                @relation(fields: [userOneId], references: [id], name: "competitionUserOne")
   userTwo           User?                @relation(fields: [userTwoId], references: [id], name: "competitionUserTwo")
-  userOneId         Int                  @unique
-  userTwoId         Int                  @unique
   createdAt         DateTime             @default(now())
   updatedAt         DateTime             @updatedAt
 }
 
 model Athlete {
-  id              Int                  @id @default(autoincrement())
-  name            String               @db.VarChar(50)
-  age             Int
-  position        String               @db.VarChar(5)
-  origin          String               @db.VarChar(50)
-  teamAbbr        String               @db.VarChar(50)
-  photoUri        String               @db.VarChar(200)
+  id           Int                  @id @default(autoincrement())
+  name         String               @db.VarChar(50)
+  age          Int
+  position     String               @db.VarChar(5)
+  photoUri     String
+  teamAbbr     String               @db.VarChar(5)
+  draftPick    String
+  statistics   AthleteStatistics?
+  stock        AthleteStock?
+  userHoldings Holding[]
+  competitions AthleteCompetition[]
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+}
+
+model AthleteStatistics {
+  athlete         Athlete  @relation(fields: [athleteId], references: [id])
+  athleteId       Int      @unique
   pointAverage    Decimal?
   reboundAverage  Decimal?
   assistAverage   Decimal?
   blockAverage    Decimal?
   stealAverage    Decimal?
   turnoverAverage Decimal?
-  userHoldings    Holding[]
-  stockData       StockPrice[]
-  competitions    AthleteCompetition[]
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
+}
+
+model AthleteStock {
+  athlete      Athlete         @relation(fields: [athleteId], references: [id])
+  athleteId    Int             @unique
+  ipo          Decimal
+  icp          AthleteStockICP
+  priceHistory StockPrice[]
 }
 
 model AthleteCompetition {
   athlete       Athlete     @relation(fields: [athleteId], references: [id])
-  athleteId     Int         @unique
+  athleteId     Int
   competition   Competition @relation(fields: [competitionId], references: [id])
-  competitionId Int         @unique
+  competitionId Int
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
@@ -88,32 +100,32 @@ model AthleteCompetition {
 
 model Holding {
   id           Int      @id @default(autoincrement())
-  user         User     @relation(fields: [userId], references: [id])
-  userId       Int      @unique
-  athlete      Athlete  @relation(fields: [athleteId], references: [id])
-  athleteId    Int      @unique
+  userId       Int
+  athleteId    Int
   shareAmt     Float
   purchaseDate DateTime
+  user         User     @relation(fields: [userId], references: [id])
+  athlete      Athlete  @relation(fields: [athleteId], references: [id])
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
 
 model StockPrice {
-  id        Int      @id @default(autoincrement())
-  date      DateTime
-  price     Decimal  @db.Money
-  athlete   Athlete  @relation(fields: [athleteId], references: [id])
-  athleteId Int      @unique
+  id           Int          @id @default(autoincrement())
+  athleteStock AthleteStock @relation(fields: [athleteId], references: [athleteId])
+  athleteId    Int
+  date         DateTime
+  price        Decimal      @db.Money
 }
 
 model Notification {
   id          Int                @id @default(autoincrement())
   type        NotificationType
-  sender      User?              @relation(name: "notificationSender", fields: [senderId], references: [id])
-  senderId    Int                @unique
-  recipient   User?              @relation(name: "notificationRecipient", fields: [recipientId], references: [id])
-  recipientId Int                @unique
+  senderId    Int
+  recipientId Int
   status      NotificationStatus @default(pending)
+  sender      User?              @relation(name: "notificationSender", fields: [senderId], references: [id])
+  recipient   User?              @relation(name: "notificationRecipient", fields: [recipientId], references: [id])
   dateSent    DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
 }
@@ -127,4 +139,13 @@ enum NotificationStatus {
   rejected
   pending
   success
+}
+
+enum AthleteStockICP {
+  RolePlayer
+  AllStar
+  Starter
+  Generational
+  Superstar
+  Star
 }
