@@ -1,5 +1,5 @@
 import { Athlete, PrismaClient } from "@prisma/client";
-import { createAthlete } from "./createAthlete";
+import { create } from "./create";
 
 import { athleteCreateSchema, AthleteCreateSchema } from "../validators";
 import { ControllerMethod } from "../../types";
@@ -10,10 +10,9 @@ const prisma = new PrismaClient();
 // set the hour limit until data is considered stale
 const HOURS_TO_STALE = 24;
 
-export const findOrCreateAthlete: ControllerMethod<
-  { data: AthleteCreateSchema },
-  Athlete | undefined
-> = async ({ data }) => {
+type FindOrCreate = ControllerMethod<Athlete, { data: AthleteCreateSchema }>;
+
+export const findOrCreate: FindOrCreate = async ({ data }) => {
   const validationResult = athleteCreateSchema.safeParse(data);
   if (!validationResult.success) {
     throw new HttpError(400, validationResult.error.message);
@@ -45,7 +44,7 @@ export const findOrCreateAthlete: ControllerMethod<
       console.log("Data was stale, re-fetching...");
     }
 
-    return createAthlete({ data });
+    return create({ data });
   } catch (e) {
     console.log("error getting one athlete in models: ", e);
   }

@@ -9,15 +9,16 @@ import { HttpError } from "../../utils";
 
 const prisma = new PrismaClient();
 
-export const updateNotification: ControllerMethod<
-  void,
+type Update = ControllerMethod<
+  Notification,
   { id: string; data: NotificationUpdateSchema }
-> = async ({ id, data }) => {
+>;
+
+export const update: Update = async ({ id, data }) => {
   const validationResult = notificationUpdateSchema.safeParse(data);
   if (!validationResult.success) {
     throw new HttpError(400, validationResult.error.message);
   }
-
   const { status } = validationResult.data;
 
   await prisma.notification.update({

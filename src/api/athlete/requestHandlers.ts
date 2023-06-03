@@ -1,8 +1,54 @@
-import { RequestHandler, Request } from "express";
-import * as AthleteController from "./controller";
-import { createRequestHandler } from "../utils";
-import { AthleteCreateSchema } from "./validators";
 import { Athlete } from "@prisma/client";
+import { RequestHandler } from "express";
+
+import * as AthleteController from "./controller";
+import { HttpError } from "../utils";
+import { AthleteCreateSchema } from "./validators";
+
+type FindOrCreateAthleteReqHandler = () => RequestHandler<
+  {},
+  Athlete | { message: string } | void,
+  void,
+  AthleteCreateSchema
+>;
+
+export const findOrCreateAthlete: FindOrCreateAthleteReqHandler = () => {
+  return async (req, res) => {
+    try {
+      const response = await AthleteController.findOrCreate({
+        data: req.query,
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      if (error instanceof HttpError) {
+        console.error(error.message);
+        return res.status(error.status).json({ message: error.message });
+      }
+      return res.status(500).json();
+    }
+  };
+};
+
+type CreateAthleteReqHandler = () => RequestHandler<
+  {},
+  Athlete | { message: string } | void,
+  AthleteCreateSchema
+>;
+
+export const createAthlete: CreateAthleteReqHandler = () => {
+  return async (req, res) => {
+    try {
+      const response = await AthleteController.create({ data: req.body });
+      return res.status(200).json(response);
+    } catch (error) {
+      if (error instanceof HttpError) {
+        console.error(error.message);
+        return res.status(error.status).json({ message: error.message });
+      }
+      return res.status(500).json();
+    }
+  };
+};
 
 // export const getAthletes = (): RequestHandler => {
 //   const operation = async () => AthleteController.findAthletes();
@@ -16,40 +62,6 @@ import { Athlete } from "@prisma/client";
 //   };
 //   return createRequestHandler(operation, 200);
 // };
-
-export const findOrCreateAthlete = () => {
-  const operation = async (req) =>
-    AthleteController.findOrCreateAthlete({ data: req.query });
-  return createRequestHandler<Athlete, {}, Athlete, void, AthleteCreateSchema>(
-    operation,
-    200
-  );
-
-  // return async (req, res) => {
-  //   try {
-  //     const response = await operation(req);
-  //     return res.status(200).json(response);
-  //   } catch (error) {
-  //     if (error instanceof HttpError) {
-  //       console.error(error.message);
-  //       return res.status(error.status).json({ message: error.message });
-  //     }
-  //     return res.status(500).json();
-  //   }
-  // };
-};
-
-export const createAthlete = (): RequestHandler<
-  {},
-  Athlete,
-  void,
-  AthleteCreateSchema
-> => {
-  const operation = async (
-    req: Request<{}, Athlete, AthleteCreateSchema, void>
-  ) => AthleteController.createAthlete({ data: req.body });
-  return createRequestHandler(operation, 201);
-};
 
 // export const updateAthlete = (): RequestHandler => {
 //   const operation = async (req: Request) => {

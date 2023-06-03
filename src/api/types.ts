@@ -5,19 +5,17 @@ export interface ControllerError {
   message: string;
 }
 
-export type ControllerMethod<TArgs, TReturn> = (
+export type ControllerMethod<TModel, TArgs> = (
   args: TArgs
-) => Promise<TReturn>;
+) => Promise<TModel | void>;
 
-export type HttpOperation<TModel> = (
-  req: Request
-) => Promise<TModel | undefined>;
+export type HttpOperation<TModel> = (req: Request) => Promise<TModel | void>;
 
 export type GraphQLOperation<TModel, DTO> = (
   input: DTO
-) => Promise<TModel | null | void>;
+) => Promise<TModel | void>;
 
 export type GraphQLMutation<TModel, DTO> = (
   root: undefined,
   args: { input: DTO }
-) => Promise<TModel | ControllerError | void | null>;
+) => Promise<TModel | ControllerError | void>;

@@ -1,2 +1,2 @@
-export * from "./createAthlete";
-export * from "./findOrCreateAthlete";
+export * from "./create";
+export * from "./findOrCreate";

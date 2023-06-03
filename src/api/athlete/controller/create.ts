@@ -9,10 +9,9 @@ const prisma = new PrismaClient();
 
 const NBA_API_BASE = process.env.NBA_API_BASE;
 
-export const createAthlete: ControllerMethod<
-  { data: AthleteCreateSchema },
-  Athlete
-> = async ({ data }) => {
+type Create = ControllerMethod<Athlete, { data: AthleteCreateSchema }>;
+
+export const create: Create = async ({ data }) => {
   const validationResult = athleteCreateSchema.safeParse(data);
   if (!validationResult.success) {
     throw new HttpError(400, validationResult.error.message);
@@ -28,6 +27,14 @@ export const createAthlete: ControllerMethod<
     where: { id: athleteData.data.id },
   });
 
+  if (found) {
+    return found;
+    // TODO: use last updated to determine if should fetch from nba_api and update data
+    // const getLastUpdatedQuery = dbc('athletes').select('last_updated').where('id', '=', athleteId);
+    // const lastUpdated = await getLastUpdatedQuery;
+    // if lastUpdated was 24+hrs ago, re-fetch
+  }
+
   // athlete is not currently in the database
   if (!found) {
     const profile = await axios.get(
@@ -42,11 +49,5 @@ export const createAthlete: ControllerMethod<
         ...career_averages,
       },
     });
-  } else {
-    return found;
-    // TODO: use last updated to determine if should fetch from nba_api and update data
-    // const getLastUpdatedQuery = dbc('athletes').select('last_updated').where('id', '=', athleteId);
-    // const lastUpdated = await getLastUpdatedQuery;
-    // if lastUpdated was 24+hrs ago, re-fetch
   }
 };
