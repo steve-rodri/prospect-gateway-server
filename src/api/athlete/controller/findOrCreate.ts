@@ -1,51 +1,51 @@
-import { Athlete, PrismaClient } from "@prisma/client";
-import { create } from "./create";
+import { Athlete, PrismaClient } from "@prisma/client"
+import { create } from "./create"
 
-import { athleteSearchSchema, AthleteSearchSchema } from "../validators";
-import { ControllerMethod } from "../../types";
-import { HttpError } from "../../utils";
+import { athleteSearchSchema, AthleteSearchSchema } from "../validators"
+import { ControllerMethod } from "../../types"
+import { HttpError } from "../../utils"
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 // set the hour limit until data is considered stale
-const HOURS_TO_STALE = 24;
+const HOURS_TO_STALE = 24
 
-type FindOrCreate = ControllerMethod<Athlete, { data: AthleteSearchSchema }>;
+type FindOrCreate = ControllerMethod<Athlete, { data: AthleteSearchSchema }>
 
 export const findOrCreate: FindOrCreate = async ({ data }) => {
-  const validationResult = athleteSearchSchema.safeParse(data);
-  if (!validationResult.success) {
-    throw new HttpError(400, validationResult.error.message);
-  }
+	const validationResult = athleteSearchSchema.safeParse(data)
+	if (!validationResult.success) {
+		throw new HttpError(400, validationResult.error.message)
+	}
 
-  const { firstName, lastName, suffix } = validationResult.data;
+	const { firstName, lastName, suffix } = validationResult.data
 
-  let fullName = `${firstName} ${lastName}`;
-  if (suffix) fullName += ` ${suffix}`;
+	let fullName = `${firstName} ${lastName}`
+	if (suffix) fullName += ` ${suffix}`
 
-  try {
-    const athlete = await prisma.athlete.findFirst({
-      where: { name: fullName },
-    });
-    if (athlete) {
-      // if athlete found in db, evaluate whether the data is stale
-      const timeElapsedSinceUpdate =
-        new Date().getTime() - new Date(athlete.updatedAt).getTime();
+	try {
+		const athlete = await prisma.athlete.findFirst({
+			where: { name: fullName }
+		})
+		if (athlete) {
+			// if athlete found in db, evaluate whether the data is stale
+			const timeElapsedSinceUpdate =
+				new Date().getTime() - new Date(athlete.updatedAt).getTime()
 
-      // convert timeElapsed (milliseconds) to hours, compare to stale limit
-      const shouldRefresh =
-        timeElapsedSinceUpdate / (60 * 60 * 1000) >= HOURS_TO_STALE;
+			// convert timeElapsed (milliseconds) to hours, compare to stale limit
+			const shouldRefresh =
+				timeElapsedSinceUpdate / (60 * 60 * 1000) >= HOURS_TO_STALE
 
-      // if not stale, simply return
-      if (!shouldRefresh) {
-        return athlete;
-      }
+			// if not stale, simply return
+			if (!shouldRefresh) {
+				return athlete
+			}
 
-      console.log("Data was stale, re-fetching...");
-    }
+			console.log("Data was stale, re-fetching...")
+		}
 
-    return create({ data });
-  } catch (e) {
-    console.log("error getting one athlete in models: ", e);
-  }
-};
+		return create({ data })
+	} catch (e) {
+		console.log("error getting one athlete in models: ", e)
+	}
+}

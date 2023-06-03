@@ -1,7 +1,7 @@
-import { Server } from "http";
-import { PrismaClient } from "@prisma/client";
+import { Server } from "http"
+import { PrismaClient } from "@prisma/client"
 
 export interface ApplicationServer {
-  app: Server;
-  dbClient: PrismaClient;
+	app: Server
+	dbClient: PrismaClient
 }
