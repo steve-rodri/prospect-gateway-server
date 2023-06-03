@@ -9,15 +9,8 @@ import http from "http"
 import athleteRouter from "./api/athlete/router"
 import notificationRouter from "./api/notification/router"
 import { PrismaClient } from "@prisma/client"
-// import { loadSchemaSync } from "@graphql-tools/load";
-// import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
-// import { addResolversToSchema } from "@graphql-tools/schema";
-// import resolver from "./graphql/query.resolver";
-// import { express as voyagerMiddleware } from "graphql-voyager/middleware";
 // import { swaggerDocument, swaggerOptions } from "./swaggerOptions";
 // import authenticationMiddleware from "./middleware/authentication";
-// import { ApolloServer } from "apollo-server-express";
-// import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 
 async function createServer(): Promise<ApplicationServer> {
 	const app = express()
@@ -63,27 +56,6 @@ async function createServer(): Promise<ApplicationServer> {
 	//   swaggerUi.serveFiles(undefined, swaggerOptions),
 	//   swaggerUi.setup(undefined, swaggerOptions)
 	// )
-
-	// // GraphQL
-
-	// app.use("/voyager", voyagerMiddleware({ endpointUrl: "/graphql" }));
-
-	// const schema = loadSchemaSync(__dirname, {
-	//   loaders: [new GraphQLFileLoader()]
-	// })
-
-	// const schemaWithResolvers = addResolversToSchema({
-	//   schema,
-	//   resolvers: resolver
-	// })
-
-	// const server = new ApolloServer({
-	//   schema: schemaWithResolvers,
-	//   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()]
-	// })
-
-	// await server.start()
-	// server.applyMiddleware({ app })
 
 	return {
 		app: httpServer,
