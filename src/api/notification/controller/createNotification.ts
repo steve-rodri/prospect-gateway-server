@@ -1,16 +1,29 @@
 import { PrismaClient } from "@prisma/client";
-import { NotificationType, NotificationStatus } from "./notification.types";
+import { NotificationType } from "../types";
 // WARN: Make better use of Prisma types if possible
+
+import {
+  notificationCreateSchema,
+  NotificationCreateSchema,
+} from "../validators";
+import { ControllerMethod } from "../../types";
+import { HttpError } from "../../utils";
 
 const prisma = new PrismaClient();
 
-export const createNotification = async (
-  notificationType: NotificationType,
-  senderId: number,
-  recipientId: number
-) => {
+export const createNotification: ControllerMethod<
+  void,
+  { data: NotificationCreateSchema }
+> = async ({ data }) => {
+  const validationResult = notificationCreateSchema.safeParse(data);
+  if (!validationResult.success) {
+    throw new HttpError(400, validationResult.error.message);
+  }
+
+  const { notificationType, senderId, recipientId } = validationResult.data;
+
   if (notificationType === NotificationType.FRIENDREQUEST) {
-    // check for pre-exisiting friendRequest Notification
+    // check for pre-existing friendRequest Notification
     const friendRequestNotificationPresent =
       await prisma.notification.findFirst({
         where: {
@@ -37,15 +50,5 @@ export const createNotification = async (
       sender_id: senderId,
       recipient_id: recipientId,
     },
-  });
-};
-
-export const updateNotification = async (
-  notificationId: number,
-  newStatus: NotificationStatus
-) => {
-  await prisma.notification.update({
-    where: { id: notificationId },
-    data: { status: newStatus },
   });
 };

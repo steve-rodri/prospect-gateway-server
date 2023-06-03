@@ -75,6 +75,17 @@ model Athlete {
   updatedAt        DateTime             @updatedAt
 }
 
+model AthleteCompetition {
+  athlete        Athlete     @relation(fields: [athlete_id], references: [id])
+  athlete_id     Int         @unique
+  competition    Competition @relation(fields: [competition_id], references: [id])
+  competition_id Int         @unique
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@id([athlete_id, competition_id])
+}
+
 model Holding {
   id            Int      @id @default(autoincrement())
   user          User     @relation(fields: [user_id], references: [id])
@@ -93,17 +104,6 @@ model StockPrice {
   price      Decimal  @db.Money
   athlete    Athlete  @relation(fields: [athlete_id], references: [id])
   athlete_id Int      @unique
-}
-
-model AthleteCompetition {
-  athlete        Athlete     @relation(fields: [athlete_id], references: [id])
-  athlete_id     Int         @unique
-  competition    Competition @relation(fields: [competition_id], references: [id])
-  competition_id Int         @unique
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-
-  @@id([athlete_id, competition_id])
 }
 
 model Notification {
