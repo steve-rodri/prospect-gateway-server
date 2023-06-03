@@ -75,6 +75,17 @@ model Athlete {
   updatedAt        DateTime             @updatedAt
 }
 
+model AthleteCompetition {
+  athlete        Athlete     @relation(fields: [athlete_id], references: [id])
+  athlete_id     Int         @unique
+  competition    Competition @relation(fields: [competition_id], references: [id])
+  competition_id Int         @unique
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@id([athlete_id, competition_id])
+}
+
 model Holding {
   id            Int      @id @default(autoincrement())
   user          User     @relation(fields: [user_id], references: [id])
@@ -95,17 +106,6 @@ model StockPrice {
   athlete_id Int      @unique
 }
 
-model AthleteCompetition {
-  athlete        Athlete     @relation(fields: [athlete_id], references: [id])
-  athlete_id     Int         @unique
-  competition    Competition @relation(fields: [competition_id], references: [id])
-  competition_id Int         @unique
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-
-  @@id([athlete_id, competition_id])
-}
-
 model Notification {
   id           Int                @id @default(autoincrement())
   type         NotificationType
@@ -117,11 +117,6 @@ model Notification {
   date_sent    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
 }
-
-// model NotificationType {
-//   id   Int    @id @default(autoincrement())
-//   name String @db.VarChar(50)
-// }
 
 enum NotificationType {
   Competition
