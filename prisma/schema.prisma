@@ -15,107 +15,107 @@ model User {
   username              String         @db.VarChar(20)
   email                 String         @unique
   password              String         @db.VarChar(200)
-  wallet_balance        Decimal        @db.Money
-  total_holdings_value  Decimal        @default(0)
+  walletBalance         Decimal        @db.Money
+  totalHoldingsValue    Decimal        @default(0)
   holdings              Holding[]
-  competitionUserOne    Competition[]  @relation(name: "competition_user_one")
-  competitionUserTwo    Competition[]  @relation(name: "competition_user_two")
-  notificationSender    Notification[] @relation(name: "notification_sender")
-  notificationRecipient Notification[] @relation(name: "notification_recipient")
+  competitionUserOne    Competition[]  @relation(name: "competitionUserOne")
+  competitionUserTwo    Competition[]  @relation(name: "competitionUserTwo")
+  notificationSender    Notification[] @relation(name: "notificationSender")
+  notificationRecipient Notification[] @relation(name: "notificationRecipient")
   createdAt             DateTime       @default(now())
   updatedAt             DateTime       @updatedAt
 }
 
 model CompetitionType {
-  id               Int          @id @default(autoincrement())
-  name             String       @db.VarChar(40)
-  athlete_limit    Int?
-  money_limit      Decimal?
-  duration_in_days Int?
-  competition      Competition?
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  id             Int          @id @default(autoincrement())
+  name           String       @db.VarChar(40)
+  athleteLimit   Int?
+  moneyLimit     Decimal?
+  durationInDays Int?
+  competition    Competition?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
 model Competition {
-  id                  Int                  @id @default(autoincrement())
-  competition_type    CompetitionType      @relation(fields: [competition_type_id], references: [id])
-  competition_type_id Int                  @unique
-  active              Boolean              @default(true)
-  start_time          DateTime             @default(now())
-  end_time            DateTime
-  user_result         String               @db.VarChar(1)
-  athletes            AthleteCompetition[]
-  user_one            User?                @relation(fields: [user_one_id], references: [id], name: "competition_user_one")
-  user_two            User?                @relation(fields: [user_two_id], references: [id], name: "competition_user_two")
-  user_one_id         Int                  @unique
-  user_two_id         Int                  @unique
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
+  id                Int                  @id @default(autoincrement())
+  competitionType   CompetitionType      @relation(fields: [competitionTypeId], references: [id])
+  competitionTypeId Int                  @unique
+  active            Boolean              @default(true)
+  startTime         DateTime             @default(now())
+  endTime           DateTime
+  userResult        String               @db.VarChar(1)
+  athletes          AthleteCompetition[]
+  userOne           User?                @relation(fields: [userOneId], references: [id], name: "competitionUserOne")
+  userTwo           User?                @relation(fields: [userTwoId], references: [id], name: "competitionUserTwo")
+  userOneId         Int                  @unique
+  userTwoId         Int                  @unique
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
 }
 
 model Athlete {
-  id               Int                  @id @default(autoincrement())
-  name             String               @db.VarChar(50)
-  age              Int
-  position         String               @db.VarChar(5)
-  origin           String               @db.VarChar(50)
-  team_abbr        String               @db.VarChar(50)
-  image_url        String               @db.VarChar(200)
-  point_average    Decimal?
-  rebound_average  Decimal?
-  assist_average   Decimal?
-  block_average    Decimal?
-  steal_average    Decimal?
-  turnover_average Decimal?
-  userHoldings     Holding[]
-  stockData        StockPrice[]
-  competitions     AthleteCompetition[]
-  createdAt        DateTime             @default(now())
-  updatedAt        DateTime             @updatedAt
+  id              Int                  @id @default(autoincrement())
+  name            String               @db.VarChar(50)
+  age             Int
+  position        String               @db.VarChar(5)
+  origin          String               @db.VarChar(50)
+  teamAbbr        String               @db.VarChar(50)
+  photoUri        String               @db.VarChar(200)
+  pointAverage    Decimal?
+  reboundAverage  Decimal?
+  assistAverage   Decimal?
+  blockAverage    Decimal?
+  stealAverage    Decimal?
+  turnoverAverage Decimal?
+  userHoldings    Holding[]
+  stockData       StockPrice[]
+  competitions    AthleteCompetition[]
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
 }
 
 model AthleteCompetition {
-  athlete        Athlete     @relation(fields: [athlete_id], references: [id])
-  athlete_id     Int         @unique
-  competition    Competition @relation(fields: [competition_id], references: [id])
-  competition_id Int         @unique
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  athlete       Athlete     @relation(fields: [athleteId], references: [id])
+  athleteId     Int         @unique
+  competition   Competition @relation(fields: [competitionId], references: [id])
+  competitionId Int         @unique
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-  @@id([athlete_id, competition_id])
+  @@id([athleteId, competitionId])
 }
 
 model Holding {
-  id            Int      @id @default(autoincrement())
-  user          User     @relation(fields: [user_id], references: [id])
-  user_id       Int      @unique
-  athlete       Athlete  @relation(fields: [athlete_id], references: [id])
-  athlete_id    Int      @unique
-  share_amt     Float
-  purchase_date DateTime
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       Int      @unique
+  athlete      Athlete  @relation(fields: [athleteId], references: [id])
+  athleteId    Int      @unique
+  shareAmt     Float
+  purchaseDate DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model StockPrice {
-  id         Int      @id @default(autoincrement())
-  date       DateTime
-  price      Decimal  @db.Money
-  athlete    Athlete  @relation(fields: [athlete_id], references: [id])
-  athlete_id Int      @unique
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  price     Decimal  @db.Money
+  athlete   Athlete  @relation(fields: [athleteId], references: [id])
+  athleteId Int      @unique
 }
 
 model Notification {
-  id           Int                @id @default(autoincrement())
-  type         NotificationType
-  sender       User?              @relation(name: "notification_sender", fields: [sender_id], references: [id])
-  sender_id    Int                @unique
-  recipient    User?              @relation(name: "notification_recipient", fields: [recipient_id], references: [id])
-  recipient_id Int                @unique
-  status       NotificationStatus @default(pending)
-  date_sent    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
+  id          Int                @id @default(autoincrement())
+  type        NotificationType
+  sender      User?              @relation(name: "notificationSender", fields: [senderId], references: [id])
+  senderId    Int                @unique
+  recipient   User?              @relation(name: "notificationRecipient", fields: [recipientId], references: [id])
+  recipientId Int                @unique
+  status      NotificationStatus @default(pending)
+  dateSent    DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
 }
 
 enum NotificationType {
