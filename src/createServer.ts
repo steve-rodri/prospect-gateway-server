@@ -50,8 +50,8 @@ async function createServer(): Promise<ApplicationServer> {
   app.use(compression());
 
   // Routing
-  app.use("/api/v0", athleteRouter);
-  app.use("/api/v0", notificationRouter);
+  app.use("/api/v0/athletes", athleteRouter);
+  app.use("/api/v0/notifications", notificationRouter);
 
   const httpServer = http.createServer(app);
 

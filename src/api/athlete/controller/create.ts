@@ -1,7 +1,7 @@
 import { Athlete, PrismaClient } from "@prisma/client";
 import axios from "axios";
 
-import { athleteCreateSchema, AthleteCreateSchema } from "../validators";
+import { athleteSearchSchema, AthleteSearchSchema } from "../validators";
 import { ControllerMethod } from "../../types";
 import { HttpError } from "../../utils";
 
@@ -9,10 +9,10 @@ const prisma = new PrismaClient();
 
 const NBA_API_BASE = process.env.NBA_API_BASE;
 
-type Create = ControllerMethod<Athlete, { data: AthleteCreateSchema }>;
+type Create = ControllerMethod<Athlete, { data: AthleteSearchSchema }>;
 
 export const create: Create = async ({ data }) => {
-  const validationResult = athleteCreateSchema.safeParse(data);
+  const validationResult = athleteSearchSchema.safeParse(data);
   if (!validationResult.success) {
     throw new HttpError(400, validationResult.error.message);
   }

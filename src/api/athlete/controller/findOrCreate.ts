@@ -1,7 +1,7 @@
 import { Athlete, PrismaClient } from "@prisma/client";
 import { create } from "./create";
 
-import { athleteCreateSchema, AthleteCreateSchema } from "../validators";
+import { athleteSearchSchema, AthleteSearchSchema } from "../validators";
 import { ControllerMethod } from "../../types";
 import { HttpError } from "../../utils";
 
@@ -10,10 +10,10 @@ const prisma = new PrismaClient();
 // set the hour limit until data is considered stale
 const HOURS_TO_STALE = 24;
 
-type FindOrCreate = ControllerMethod<Athlete, { data: AthleteCreateSchema }>;
+type FindOrCreate = ControllerMethod<Athlete, { data: AthleteSearchSchema }>;
 
 export const findOrCreate: FindOrCreate = async ({ data }) => {
-  const validationResult = athleteCreateSchema.safeParse(data);
+  const validationResult = athleteSearchSchema.safeParse(data);
   if (!validationResult.success) {
     throw new HttpError(400, validationResult.error.message);
   }

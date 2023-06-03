@@ -1,9 +1,10 @@
 import express, { Router } from "express";
 
-import * as RequestHandlers from "./requestHandlers";
+import * as NotificationRequestHandlers from "./request-handlers";
 // import { requiredScopes } from 'express-oauth2-jwt-bearer'
 // import { permissionsType } from '../../constants'
 
+// /api/v0/notifications
 export const createNotificationRouter = (): Router => {
   const router = express.Router();
 
@@ -12,15 +13,8 @@ export const createNotificationRouter = (): Router => {
   // const writeScope = requiredScopes(permissionsType.moviesWrite)
   // const deleteScope = requiredScopes(permissionsType.moviesDelete)
 
-  // View
-  // router.get('/', readScope, RequestHandlers.find())
-  // router.get("/", RequestHandlers.getNotifications());
-  router.post("/", RequestHandlers.createNotification());
-
-  // router.get("/:id", RequestHandlers.getNotification());
-  router.patch("/:id", RequestHandlers.updateNotification());
-  // router.delete("/:id", RequestHandlers.deleteNotification());
-
+  router.post("/", NotificationRequestHandlers.create());
+  router.patch("/:id", NotificationRequestHandlers.update());
   return router;
 };
 

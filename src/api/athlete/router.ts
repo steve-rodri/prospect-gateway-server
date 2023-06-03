@@ -1,9 +1,10 @@
 import express, { Router } from "express";
 
-import * as RequestHandlers from "./requestHandlers";
+import * as AthleteRequestHandlers from "./request-handlers";
 // import { requiredScopes } from 'express-oauth2-jwt-bearer'
 // import { permissionsType } from '../../constants'
 
+// /api/v0/athlete
 export const createAthleteRouter = (): Router => {
   const router = express.Router();
 
@@ -12,16 +13,10 @@ export const createAthleteRouter = (): Router => {
   // const writeScope = requiredScopes(permissionsType.moviesWrite)
   // const deleteScope = requiredScopes(permissionsType.moviesDelete)
 
-  // View
-  // router.get('/', readScope, RequestHandlers.find())
-  // router.get("/", RequestHandlers.getAthletes());
-  router.get("/search", RequestHandlers.findOrCreateAthlete());
-  router.post("/", RequestHandlers.createAthlete());
-
-  // router.get("/:id", RequestHandlers.getAthlete());
-  // router.patch("/:id", RequestHandlers.updateAthlete());
-  // router.delete("/:id", RequestHandlers.deleteAthlete());
-
+  router.get("/", AthleteRequestHandlers.find());
+  router.post("/", AthleteRequestHandlers.create());
+  router.get("/search", AthleteRequestHandlers.findOrCreate());
+  router.get("/:id", AthleteRequestHandlers.findOne());
   return router;
 };
 

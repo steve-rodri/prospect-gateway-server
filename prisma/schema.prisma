@@ -118,11 +118,6 @@ model Notification {
   updatedAt    DateTime           @updatedAt
 }
 
-// model NotificationType {
-//   id   Int    @id @default(autoincrement())
-//   name String @db.VarChar(50)
-// }
-
 enum NotificationType {
   Competition
   FriendRequest

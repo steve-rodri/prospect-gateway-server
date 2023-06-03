@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-export const athleteCreateSchema = z.object({
+export const athleteSearchSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   suffix: z.string(),
 });
 
-export type AthleteCreateSchema = z.infer<typeof athleteCreateSchema>;
+export type AthleteSearchSchema = z.infer<typeof athleteSearchSchema>;
