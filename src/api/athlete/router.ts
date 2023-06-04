@@ -1,15 +1,24 @@
-import express, { Router } from "express"
-import { publicProcedure, router } from "../../trpc"
+import { z } from "zod"
+import { router } from "../../trpc/init"
+import { protectedProcedure } from "../../trpc/protectedProcedure"
+import * as AthleteController from "./controller"
+import { athleteSearchSchema } from "./validators"
 
-import * as AthleteRequestHandlers from "./request-handlers"
-// import { requiredScopes } from 'express-oauth2-jwt-bearer'
 // import { permissionsType } from '../../constants'
 
 export const athleteRouter = router({
-	getAthletes: publicProcedure.query(() => "get Athletes"),
-	createAthlete: publicProcedure.mutation(() => "create Athlete"),
-	findOrCreateAthlete: publicProcedure.query(() => "find or create Athlete"),
-	findOneAthlete: publicProcedure.query(() => "find one Athlete")
+	getAthletes: protectedProcedure.query(({ ctx }) =>
+		AthleteController.find(ctx)
+	),
+	createAthlete: protectedProcedure
+		.input(athleteSearchSchema)
+		.mutation(({ input, ctx }) => AthleteController.create({ input, ctx })),
+	findOrCreateAthlete: protectedProcedure
+		.input(athleteSearchSchema)
+		.query(({ input, ctx }) => AthleteController.findOrCreate({ input, ctx })),
+	findOneAthlete: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.query(({ input, ctx }) => AthleteController.findOne({ id: input.id, ctx }))
 })
 
 // // /api/v0/athlete

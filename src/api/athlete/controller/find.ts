@@ -1,9 +1,10 @@
+import { Context } from "../../../trpc"
 import { ControllerMethod } from "../../types"
-import { Athlete, PrismaClient } from "@prisma/client"
+import { Athlete } from "@prisma/client"
 
-const prisma = new PrismaClient()
-
-export const find: ControllerMethod<Athlete[], void> = async () => {
+export const find: ControllerMethod<Athlete[], Context> = async ({
+	prisma
+}: Context) => {
 	const athletes = await prisma.athlete.findMany()
 	return athletes
 }

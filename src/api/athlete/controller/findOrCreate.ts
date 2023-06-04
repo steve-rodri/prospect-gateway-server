@@ -1,24 +1,21 @@
-import { Athlete, PrismaClient } from "@prisma/client"
+import { Athlete } from "@prisma/client"
 import { create } from "./create"
 
-import { athleteSearchSchema, AthleteSearchSchema } from "../validators"
+import { AthleteSearchSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { HttpError } from "../../utils"
-
-const prisma = new PrismaClient()
+import { Context } from "../../../trpc"
 
 // set the hour limit until data is considered stale
 const HOURS_TO_STALE = 24
 
-type FindOrCreate = ControllerMethod<Athlete, { data: AthleteSearchSchema }>
+type FindOrCreate = ControllerMethod<
+	Athlete,
+	{ input: AthleteSearchSchema; ctx: Context }
+>
 
-export const findOrCreate: FindOrCreate = async ({ data }) => {
-	const validationResult = athleteSearchSchema.safeParse(data)
-	if (!validationResult.success) {
-		throw new HttpError(400, validationResult.error.message)
-	}
-
-	const { firstName, lastName, suffix } = validationResult.data
+export const findOrCreate: FindOrCreate = async ({ input, ctx }) => {
+	const { prisma } = ctx
+	const { firstName, lastName, suffix } = input
 
 	let fullName = `${firstName} ${lastName}`
 	if (suffix) fullName += ` ${suffix}`
@@ -44,7 +41,7 @@ export const findOrCreate: FindOrCreate = async ({ data }) => {
 			console.log("Data was stale, re-fetching...")
 		}
 
-		return create({ data })
+		return create({ input, ctx })
 	} catch (e) {
 		console.log("error getting one athlete in models: ", e)
 	}
