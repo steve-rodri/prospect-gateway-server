@@ -399,6 +399,16 @@
   resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-4.15.0.tgz#d8687a9fda615fab88b75b466931280289de9e26"
   integrity sha512-FTaOCGs0LL0OW68juZlGxFtYviZa4xdQj/rQEdat2txw0s3Vu/saAPKjNVXfIgUsGXmQ72HPgNr6935/P8FNAA==
 
+"@trpc/client@^10.29.0":
+  version "10.29.0"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.29.0.tgz#d45d5c6f5271ca41179c0286c2fce604d0cb3b24"
+  integrity sha512-2a5+xJarQaQNnmMHP73LdShNPFoXwQhUBKEK7zs/Fqy75kYKtwkBnbPPef4nJpAdG3JW0kbm8vbZcQ8T91oG1A==
+
+"@trpc/server@^10.29.0":
+  version "10.29.0"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.29.0.tgz#69750aa3cc54f1fd841706fdf8cf443471701308"
+  integrity sha512-a/ZAc/TT6Cz0L/Ii4asJrgyclnNl/SiNeN+dZPVYJZlw7okeTdbHI1vePcQb/3+0GpwVQeSEkZpVpSgekH9YZQ==
+
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@tsconfig/node10/-/node10-1.0.9.tgz#df4907fc07a886922637b15e02d4cebc4c0021b2"
