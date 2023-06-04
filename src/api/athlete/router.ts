@@ -5,6 +5,9 @@ import * as AthleteController from "./controller"
 import { athleteSearchSchema } from "./validators"
 
 // import { permissionsType } from '../../constants'
+// 	// const readScope = requiredScopes(permissionsType.moviesRead)
+// 	// const writeScope = requiredScopes(permissionsType.moviesWrite)
+// 	// const deleteScope = requiredScopes(permissionsType.moviesDelete)
 
 export const athleteRouter = router({
 	getAthletes: protectedProcedure.query(({ ctx }) =>
@@ -20,19 +23,3 @@ export const athleteRouter = router({
 		.input(z.object({ id: z.string() }))
 		.query(({ input, ctx }) => AthleteController.findOne({ id: input.id, ctx }))
 })
-
-// // /api/v0/athlete
-// export const createAthleteRouter = (): Router => {
-// 	// const router = express.Router()
-// 	// Scopes
-// 	// const readScope = requiredScopes(permissionsType.moviesRead)
-// 	// const writeScope = requiredScopes(permissionsType.moviesWrite)
-// 	// const deleteScope = requiredScopes(permissionsType.moviesDelete)
-// 	// router.get("/", AthleteRequestHandlers.find())
-// 	// router.post("/", AthleteRequestHandlers.create())
-// 	// router.get("/search", AthleteRequestHandlers.findOrCreate())
-// 	// router.get("/:id", AthleteRequestHandlers.findOne())
-// 	// return router
-// }
-
-// export default createAthleteRouter()

@@ -9,6 +9,7 @@ export const createContext = async ({ req }: ContextOpts) => {
 
 	const getUserFromHeader = async () => {
 		if (req.headers.authorization) {
+			// TODO: Add AuthO or Clerk auth middleware
 			// const user = await decodeAndVerifyJwtToken(
 			// 	req.headers.authorization.split(" ")[1]
 			// )

@@ -1,6 +1,7 @@
-import { Context } from "../../../trpc"
-import { ControllerMethod } from "../../types"
 import { Athlete } from "@prisma/client"
+
+import { ControllerMethod } from "../../types"
+import { Context } from "../../../trpc"
 
 export const find: ControllerMethod<Athlete[], Context> = async ({
 	prisma

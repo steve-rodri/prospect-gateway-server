@@ -1,7 +1,8 @@
-import { ControllerMethod } from "../../types"
 import { Athlete } from "@prisma/client"
-import { Context } from "../../../trpc"
 import { TRPCError } from "@trpc/server"
+
+import { ControllerMethod } from "../../types"
+import { Context } from "../../../trpc"
 
 export const findOne: ControllerMethod<
 	Athlete,
