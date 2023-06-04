@@ -1,24 +1,17 @@
-import { PrismaClient } from "@prisma/client"
 import { NotificationType } from "../types"
-// WARN: Make better use of Prisma types if possible
 
-import {
-	notificationCreateSchema,
-	NotificationCreateSchema
-} from "../validators"
+import { NotificationCreateSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { HttpError } from "../../utils"
+import { Context } from "../../../trpc"
 
-const prisma = new PrismaClient()
+type Create = ControllerMethod<
+	Notification,
+	{ input: NotificationCreateSchema; ctx: Context }
+>
 
-type Create = ControllerMethod<Notification, { data: NotificationCreateSchema }>
-
-export const create: Create = async ({ data }) => {
-	const validationResult = notificationCreateSchema.safeParse(data)
-	if (!validationResult.success) {
-		throw new HttpError(400, validationResult.error.message)
-	}
-	const { notificationType, senderId, recipientId } = validationResult.data
+export const create: Create = async ({ input, ctx }) => {
+	const { prisma } = ctx
+	const { notificationType, senderId, recipientId } = input
 
 	if (notificationType === NotificationType.FRIENDREQUEST) {
 		// check for pre-existing friendRequest Notification
@@ -28,12 +21,12 @@ export const create: Create = async ({ data }) => {
 					type: NotificationType.FRIENDREQUEST,
 					OR: [
 						{
-							sender_id: senderId,
-							recipient_id: recipientId
+							senderId,
+							recipientId
 						},
 						{
-							sender_id: recipientId,
-							recipient_id: senderId
+							senderId: recipientId,
+							recipientId: senderId
 						}
 					]
 				}
@@ -45,8 +38,8 @@ export const create: Create = async ({ data }) => {
 	await prisma.notification.create({
 		data: {
 			type: notificationType,
-			sender_id: senderId,
-			recipient_id: recipientId
+			senderId: senderId,
+			recipientId: recipientId
 		}
 	})
 }

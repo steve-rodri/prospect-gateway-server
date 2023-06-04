@@ -1,25 +1,15 @@
-import { PrismaClient } from "@prisma/client"
-
-import {
-	notificationUpdateSchema,
-	NotificationUpdateSchema
-} from "../validators"
+import { NotificationUpdateSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { HttpError } from "../../utils"
-
-const prisma = new PrismaClient()
+import { Context } from "../../../trpc"
 
 type Update = ControllerMethod<
 	Notification,
-	{ id: string; data: NotificationUpdateSchema }
+	{ input: NotificationUpdateSchema; ctx: Context }
 >
 
-export const update: Update = async ({ id, data }) => {
-	const validationResult = notificationUpdateSchema.safeParse(data)
-	if (!validationResult.success) {
-		throw new HttpError(400, validationResult.error.message)
-	}
-	const { status } = validationResult.data
+export const update: Update = async ({ input, ctx }) => {
+	const { prisma } = ctx
+	const { id, status } = input
 
 	await prisma.notification.update({
 		where: { id: Number(id) },

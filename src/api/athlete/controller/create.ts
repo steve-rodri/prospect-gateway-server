@@ -1,23 +1,20 @@
-import { Athlete, PrismaClient } from "@prisma/client"
+import { Athlete } from "@prisma/client"
 import axios from "axios"
 
-import { athleteSearchSchema, AthleteSearchSchema } from "../validators"
+import { AthleteSearchSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { HttpError } from "../../utils"
-
-const prisma = new PrismaClient()
+import { Context } from "../../../trpc"
 
 const NBA_API_BASE = process.env.NBA_API_BASE
 
-type Create = ControllerMethod<Athlete, { data: AthleteSearchSchema }>
+type Create = ControllerMethod<
+	Athlete,
+	{ input: AthleteSearchSchema; ctx: Context }
+>
 
-export const create: Create = async ({ data }) => {
-	const validationResult = athleteSearchSchema.safeParse(data)
-	if (!validationResult.success) {
-		throw new HttpError(400, validationResult.error.message)
-	}
-
-	const { firstName, lastName, suffix } = validationResult.data
+export const create: Create = async ({ input, ctx }) => {
+	const { prisma } = ctx
+	const { firstName, lastName, suffix } = input
 
 	const athleteData = await axios.get(
 		`${NBA_API_BASE}/athleteid?first=${firstName}&last=${lastName}&suffix=${suffix}`

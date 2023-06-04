@@ -11,6 +11,7 @@ export const notificationCreateSchema = z.object({
 })
 
 export const notificationUpdateSchema = z.object({
+	id: z.string(),
 	status: z.union([
 		z.literal(NotificationStatus.PENDING),
 		z.literal(NotificationStatus.REJECTED),

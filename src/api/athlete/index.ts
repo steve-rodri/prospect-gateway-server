@@ -1,0 +1,1 @@
+export { athleteRouter } from "./router"
