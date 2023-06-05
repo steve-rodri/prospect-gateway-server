@@ -29,8 +29,7 @@ export const seedCompetitions = async ({
 	amount = 5,
 	prisma,
 	competitionTypes,
-	users,
-	athletes
+	users
 }: {
 	amount?: number
 	prisma: PrismaClient
@@ -59,11 +58,12 @@ export const seedCompetitions = async ({
 
 	// TODO: Figure out how to associate a user's athletes to a competition
 	// associate athletes with competitions
-	await Promise.all(
-		competitions.map(competition => {
-			// await prisma.athleteCompetition.create({ })
-		})
-	)
+	// await Promise.all(
+	// 	competitions.map(competition => {
+	// 		// await prisma.athleteCompetition.create({ })
+	// 	})
+	// )
+
 	console.log(`Seeded ${competitions.length} competitions`)
 	return competitions
 }
