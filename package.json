@@ -1,7 +1,7 @@
 {
-  "name": "competitions",
+  "name": "prospect-gateway-server",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "src/index.ts",
   "scripts": {
     "start": "doppler run -- nodemon src/index.ts",
     "db:migrate": "doppler run -- npx prisma migrate dev",
