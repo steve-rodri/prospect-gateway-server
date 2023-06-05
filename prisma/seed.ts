@@ -5,7 +5,7 @@ import { seedCompetitionTypes } from "./seeds/competitionType"
 
 const prisma = new PrismaClient()
 
-async function main() {
+const seedDatabase = async () => {
 	const athletes = await seedAthletes({ prisma })
 	const users = await seedUsers({ prisma, athletes })
 	await seedNotifications({ prisma, users })
@@ -13,7 +13,7 @@ async function main() {
 	await seedCompetitions({ prisma, competitionTypes, users, athletes })
 }
 
-main()
+seedDatabase()
 	.then(async () => {
 		await prisma.$disconnect()
 	})
