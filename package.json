@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "start": "doppler run -- nodemon src/index.ts",
-    "db:migrate": "doppler run -- npx prisma migrate dev",
-    "db:seed": "doppler run -- npx prisma db seed",
+    "dev": "doppler run -c dev_steve -p nba_gateway -- nodemon src/index.ts",
+    "start": "doppler run -c prd -p nba_gateway -- nodemon src/index.ts",
+    "db:migrate": "doppler run -c dev -p nba_gateway -- npx prisma migrate dev",
+    "db:seed": "doppler run -c dev -p nba_gateway -- npx prisma db seed",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx}\""
   },
   "prisma": {
