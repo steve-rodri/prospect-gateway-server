@@ -27,6 +27,7 @@
     "knex": "^2.3.0",
     "nodemon": "^2.0.20",
     "pg": "^8.8.0",
+    "supertokens-node": "^14.1.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^4.10.0",
     "winston": "^3.9.0",
