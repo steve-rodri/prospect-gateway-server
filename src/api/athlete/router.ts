@@ -10,9 +10,9 @@ import { athleteSearchSchema } from "./validators"
 // 	// const deleteScope = requiredScopes(permissionsType.moviesDelete)
 
 export const athleteRouter = router({
-	getAthletes: protectedProcedure.query(({ ctx }) =>
-		AthleteController.find(ctx)
-	),
+	getAthletes: protectedProcedure
+		.input(z.object({ search: z.string() }))
+		.query(({ input, ctx }) => AthleteController.find({ input, ctx })),
 	createAthlete: protectedProcedure
 		.input(athleteSearchSchema)
 		.mutation(({ input, ctx }) => AthleteController.create({ input, ctx })),
