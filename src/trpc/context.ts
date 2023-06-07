@@ -9,8 +9,8 @@ export const createContext = async ({ req, res }: ContextOpts) => {
 	const prisma = new PrismaClient()
 	const session = await Session.getSession(req, res)
 	if (session) {
-		const uid = session.getUserId()
-		return { auth: { uid }, prisma }
+		const id = session.getUserId()
+		return { user: { id }, prisma }
 	}
 	return { prisma }
 }
@@ -18,6 +18,6 @@ export const createContext = async ({ req, res }: ContextOpts) => {
 export type Context = inferAsyncReturnType<typeof createContext>
 
 export type AuthContext = {
-	auth: { uid: string }
+	user: { id: string }
 	prisma: PrismaClient
 }

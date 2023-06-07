@@ -12,9 +12,11 @@ datasource db {
 }
 
 model User {
-  id                    Int            @id @default(autoincrement())
-  uid                   String         @unique
+  id                    String         @id @unique
   email                 String         @unique
+  name                  String?
+  phone                 String?
+  dateOfBirth           DateTime?
   walletBalance         Decimal?       @default(0) @db.Money
   holdings              Holding[]
   competitionUserOne    Competition[]  @relation(name: "competitionUserOne")
@@ -39,8 +41,8 @@ model CompetitionType {
 model Competition {
   id                Int                  @id @default(autoincrement())
   competitionTypeId Int
-  userOneId         Int
-  userTwoId         Int
+  userOneId         String
+  userTwoId         String
   active            Boolean              @default(true)
   startTime         DateTime             @default(now())
   endTime           DateTime?
@@ -100,7 +102,7 @@ model AthleteCompetition {
 
 model Holding {
   id           Int      @id @default(autoincrement())
-  userId       Int
+  userId       String
   athleteId    Int
   shareAmt     Float
   purchaseDate DateTime
@@ -121,8 +123,8 @@ model StockPrice {
 model Notification {
   id          Int                @id @default(autoincrement())
   type        NotificationType
-  senderId    Int
-  recipientId Int
+  senderId    String
+  recipientId String
   status      NotificationStatus @default(pending)
   sender      User?              @relation(name: "notificationSender", fields: [senderId], references: [id])
   recipient   User?              @relation(name: "notificationRecipient", fields: [recipientId], references: [id])

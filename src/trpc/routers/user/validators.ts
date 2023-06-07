@@ -1,18 +1,5 @@
 import { z } from "zod"
 
-// id                    Int            @id @default(autoincrement())
-// username              String         @db.VarChar(50)
-// email                 String         @unique
-// password              String         @db.VarChar(200)
-// walletBalance         Decimal        @db.Money
-// holdings              Holding[]
-// competitionUserOne    Competition[]  @relation(name: "competitionUserOne")
-// competitionUserTwo    Competition[]  @relation(name: "competitionUserTwo")
-// notificationSender    Notification[] @relation(name: "notificationSender")
-// notificationRecipient Notification[] @relation(name: "notificationRecipient")
-// createdAt             DateTime       @default(now())
-// updatedAt             DateTime       @updatedAt
-
 export const holdingSchema = z.object({
 	id: z.number(),
 	athleteId: z.number(),
@@ -25,7 +12,7 @@ export const userCreateSchema = z.object({
 })
 
 export const userUpdateSchema = z.object({
-	id: z.number(),
+	id: z.string(),
 	email: z.string().email(),
 	walletBalance: z.number()
 	// holdings: z.array(holdingSchema)

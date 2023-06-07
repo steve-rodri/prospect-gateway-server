@@ -1,2 +1,2 @@
-export * from "./findOrCreate"
+export * from "./findOne"
 export * from "./update"

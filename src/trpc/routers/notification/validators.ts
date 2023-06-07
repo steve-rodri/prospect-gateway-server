@@ -6,8 +6,8 @@ export const notificationCreateSchema = z.object({
 		z.literal(NotificationType.COMPETITION),
 		z.literal(NotificationType.FRIENDREQUEST)
 	]),
-	senderId: z.number(),
-	recipientId: z.number()
+	senderId: z.string(),
+	recipientId: z.string()
 })
 
 export const notificationUpdateSchema = z.object({

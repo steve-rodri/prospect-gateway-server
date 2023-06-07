@@ -1,18 +1,13 @@
 import { User } from "@prisma/client"
 
-import { UserUpdateSchema } from "../validators"
 import { ControllerMethod } from "../../types"
 import { AuthContext } from "../../../context"
 
-type Update = ControllerMethod<
-	User,
-	{ input: UserUpdateSchema; ctx: AuthContext }
->
+type Find = ControllerMethod<User | null, { ctx: AuthContext }>
 
-export const update: Update = async ({ input, ctx }) => {
-	return ctx.prisma.user.update({
-		where: { id: input.id },
-		data: input,
+export const findOne: Find = async ({ ctx }) => {
+	return ctx.prisma.user.findUnique({
+		where: { id: ctx.user.id },
 		include: {
 			holdings: true,
 			competitionUserOne: true,
