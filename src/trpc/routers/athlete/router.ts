@@ -18,7 +18,9 @@ export const athleteRouter = router({
 		.mutation(({ input, ctx }) => AthleteController.create({ input, ctx })),
 	findOrCreateAthlete: protectedProcedure
 		.input(athleteSearchSchema)
-		.query(({ input, ctx }) => AthleteController.findOrCreate({ input, ctx })),
+		.mutation(({ input, ctx }) =>
+			AthleteController.findOrCreate({ input, ctx })
+		),
 	findOneAthlete: protectedProcedure
 		.input(z.object({ id: z.string() }))
 		.query(({ input, ctx }) => AthleteController.findOne({ id: input.id, ctx }))

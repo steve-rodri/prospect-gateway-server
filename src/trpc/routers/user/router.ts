@@ -6,8 +6,8 @@ import { protectedProcedure } from "../../protectedProcedure"
 export const userRouter = router({
 	findOrCreateUser: protectedProcedure
 		.input(userCreateSchema)
-		.query(({ input, ctx }) => UserController.findOrCreate({ input, ctx })),
+		.mutation(({ input, ctx }) => UserController.findOrCreate({ input, ctx })),
 	updateUser: protectedProcedure
 		.input(userUpdateSchema)
-		.query(({ input, ctx }) => UserController.update({ input, ctx }))
+		.mutation(({ input, ctx }) => UserController.update({ input, ctx }))
 })
