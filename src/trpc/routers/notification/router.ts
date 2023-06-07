@@ -1,5 +1,5 @@
-import { router } from "../../trpc/init"
-import { protectedProcedure } from "../../trpc/protectedProcedure"
+import { router } from "../../init"
+import { protectedProcedure } from "../../protectedProcedure"
 import * as NotificationController from "./controller"
 import {
 	notificationCreateSchema,

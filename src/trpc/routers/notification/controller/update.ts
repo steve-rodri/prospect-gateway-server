@@ -1,10 +1,10 @@
 import { NotificationUpdateSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { Context } from "../../../trpc"
+import { AuthContext } from "../../../context"
 
 type Update = ControllerMethod<
 	Notification,
-	{ input: NotificationUpdateSchema; ctx: Context }
+	{ input: NotificationUpdateSchema; ctx: AuthContext }
 >
 
 export const update: Update = async ({ input, ctx }) => {

@@ -3,14 +3,14 @@ import { Athlete } from "@prisma/client"
 import { create } from "./create"
 import { AthleteSearchSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { Context } from "../../../trpc"
+import { AuthContext } from "../../../context"
 
 // set the hour limit until data is considered stale
 const HOURS_TO_STALE = 24
 
 type FindOrCreate = ControllerMethod<
 	Athlete,
-	{ input: AthleteSearchSchema; ctx: Context }
+	{ input: AthleteSearchSchema; ctx: AuthContext }
 >
 
 export const findOrCreate: FindOrCreate = async ({ input, ctx }) => {

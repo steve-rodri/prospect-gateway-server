@@ -2,11 +2,11 @@ import { Athlete } from "@prisma/client"
 import { TRPCError } from "@trpc/server"
 
 import { ControllerMethod } from "../../types"
-import { Context } from "../../../trpc"
+import { AuthContext } from "../../../context"
 
 export const findOne: ControllerMethod<
 	Athlete,
-	{ id: string; ctx: Context }
+	{ id: string; ctx: AuthContext }
 > = async ({ id, ctx }) => {
 	const athlete = await ctx.prisma.athlete.findUnique({
 		where: { id: Number(id) }

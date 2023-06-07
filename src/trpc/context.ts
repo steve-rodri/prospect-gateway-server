@@ -1,25 +1,23 @@
 import { PrismaClient } from "@prisma/client"
 import { inferAsyncReturnType } from "@trpc/server"
 import { CreateExpressContextOptions } from "@trpc/server/adapters/express"
+import Session from "supertokens-node/recipe/session"
 
 type ContextOpts = CreateExpressContextOptions
 
-export const createContext = async ({ req }: ContextOpts) => {
+export const createContext = async ({ req, res }: ContextOpts) => {
 	const prisma = new PrismaClient()
-
-	const getUserFromHeader = async () => {
-		if (req.headers.authorization) {
-			// TODO: Add AuthO or Clerk auth middleware
-			// const user = await decodeAndVerifyJwtToken(
-			// 	req.headers.authorization.split(" ")[1]
-			// )
-			// return user
-		}
-		return null
+	const session = await Session.getSession(req, res)
+	if (session) {
+		const uid = session.getUserId()
+		return { auth: { uid }, prisma }
 	}
-
-	const user = await getUserFromHeader()
-	return { user, prisma }
-} // no context
+	return { prisma }
+}
 
 export type Context = inferAsyncReturnType<typeof createContext>
+
+export type AuthContext = {
+	auth: { uid: string }
+	prisma: PrismaClient
+}

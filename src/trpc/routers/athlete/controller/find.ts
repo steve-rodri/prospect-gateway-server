@@ -1,11 +1,11 @@
 import { Athlete } from "@prisma/client"
 
 import { ControllerMethod } from "../../types"
-import { Context } from "../../../trpc"
+import { AuthContext } from "../../../context"
 
 type Find = {
 	input: { search: string }
-	ctx: Context
+	ctx: AuthContext
 }
 
 export const find: ControllerMethod<Athlete[], Find> = async ({
@@ -15,7 +15,7 @@ export const find: ControllerMethod<Athlete[], Find> = async ({
 	return ctx.prisma.athlete.findMany({
 		where: {
 			name: {
-				contains: input.search
+				search: input.search
 			}
 		},
 		distinct: "name"

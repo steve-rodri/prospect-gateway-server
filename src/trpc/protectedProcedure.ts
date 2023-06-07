@@ -1,16 +1,11 @@
 import { publicProcedure, middleware } from "./init"
 import { TRPCError } from "@trpc/server"
 
-const isAuthenticated = middleware(opts => {
-	const { ctx } = opts
-	if (!ctx.user) {
+const isAuthenticated = middleware(async ({ ctx, next }) => {
+	if (!ctx.auth?.uid) {
 		throw new TRPCError({ code: "UNAUTHORIZED" })
 	}
-	return opts.next({
-		ctx: {
-			user: ctx.user
-		}
-	})
+	return next({ ctx: { ...ctx, auth: { uid: ctx.auth.uid } } })
 })
 
 export const protectedProcedure = publicProcedure.use(isAuthenticated)

@@ -1,6 +1,6 @@
 import { z } from "zod"
-import { router } from "../../trpc/init"
-import { protectedProcedure } from "../../trpc/protectedProcedure"
+import { router } from "../../init"
+import { protectedProcedure } from "../../protectedProcedure"
 import * as AthleteController from "./controller"
 import { athleteSearchSchema } from "./validators"
 
