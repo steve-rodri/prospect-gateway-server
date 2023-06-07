@@ -22,7 +22,11 @@ export const findOrCreate: FindOrCreate = async ({ input, ctx }) => {
 
 	try {
 		const athlete = await prisma.athlete.findFirst({
-			where: { name: fullName }
+			where: { name: { search: fullName } },
+			include: {
+				statistics: true,
+				stock: true
+			}
 		})
 		if (athlete) {
 			// if athlete found in db, evaluate whether the data is stale

@@ -21,16 +21,28 @@ export const create: Create = async ({ input, ctx }) => {
 	)
 
 	const found = await prisma.athlete.findFirst({
-		where: { id: athleteData.data.id }
+		where: { id: athleteData.data.id },
+		include: {
+			statistics: true,
+			stock: true
+		}
 	})
 
+	// TODO: use last updated to determine if should fetch from nba_api and update data
 	if (found) {
-		return found
-		// TODO: use last updated to determine if should fetch from nba_api and update data
-		// const getLastUpdatedQuery = dbc('athletes').select('last_updated').where('id', '=', athleteId);
-		// const lastUpdated = await getLastUpdatedQuery;
-		// if lastUpdated was 24+hrs ago, re-fetch
-	}
+
+	// 	if (found.updatedAt)
+	// 		const updatedAthlete = await prisma.athlete.update({
+	// 			where: { id: athleteData.data.id },
+	// 			include: {
+	// 				statistics: true,
+	// 				stock: true
+	// 			}
+	// 		})
+	// 	// const getLastUpdatedQuery = dbc('athletes').select('last_updated').where('id', '=', athleteId);
+	// 	// const lastUpdated = await getLastUpdatedQuery;
+	// 	// if lastUpdated was 24+hrs ago, re-fetch
+	// }
 
 	// athlete is not currently in the database
 	if (!found) {
@@ -43,7 +55,13 @@ export const create: Create = async ({ input, ctx }) => {
 		return prisma.athlete.create({
 			data: {
 				...profileData,
-				...career_averages
+				statistics: {
+					create: career_averages
+				}
+			},
+			include: {
+				statistics: true,
+				stock: true
 			}
 		})
 	}
