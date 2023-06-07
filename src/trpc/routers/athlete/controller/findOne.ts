@@ -6,15 +6,15 @@ import { AuthContext } from "../../../context"
 
 export const findOne: ControllerMethod<
 	Athlete,
-	{ id: string; ctx: AuthContext }
-> = async ({ id, ctx }) => {
+	{ input: { id: string }; ctx: AuthContext }
+> = async ({ input, ctx }) => {
 	const athlete = await ctx.prisma.athlete.findUnique({
-		where: { id: Number(id) }
+		where: { id: Number(input.id) }
 	})
 	if (!athlete)
 		throw new TRPCError({
 			code: "NOT_FOUND",
-			message: `Athlete with id:${id} was not found.`
+			message: `Athlete with id:${input.id} was not found.`
 		})
 	return athlete
 }

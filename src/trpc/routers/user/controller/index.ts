@@ -1,2 +1,2 @@
-export * from "./findOne"
+export * from "./me"
 export * from "./update"

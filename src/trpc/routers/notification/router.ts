@@ -7,12 +7,10 @@ import {
 } from "./validators"
 
 export const notificationRouter = router({
-	createNotification: protectedProcedure
+	create: protectedProcedure
 		.input(notificationCreateSchema)
-		.mutation(({ input, ctx }) =>
-			NotificationController.create({ input, ctx })
-		),
-	updateNotification: protectedProcedure
+		.mutation(NotificationController.create),
+	update: protectedProcedure
 		.input(notificationUpdateSchema)
-		.mutation(({ input, ctx }) => NotificationController.update({ input, ctx }))
+		.mutation(NotificationController.update)
 })

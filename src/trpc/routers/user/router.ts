@@ -4,10 +4,8 @@ import { router } from "../../init"
 import { protectedProcedure } from "../../protectedProcedure"
 
 export const userRouter = router({
-	getUser: protectedProcedure.query(({ ctx }) =>
-		UserController.findOne({ ctx })
-	),
-	updateUser: protectedProcedure
+	me: protectedProcedure.query(UserController.me),
+	update: protectedProcedure
 		.input(userUpdateSchema)
-		.mutation(({ input, ctx }) => UserController.update({ input, ctx }))
+		.mutation(UserController.update)
 })
