@@ -1,7 +1,8 @@
 import { router } from "./init"
-import { athleteRouter, notificationRouter } from "../api"
+import { userRouter, athleteRouter, notificationRouter } from "./routers"
 
 export const appRouter = router({
+	user: userRouter,
 	athlete: athleteRouter,
 	notification: notificationRouter
 })
