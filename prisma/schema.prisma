@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -12,10 +13,9 @@ datasource db {
 
 model User {
   id                    Int            @id @default(autoincrement())
-  username              String         @db.VarChar(50)
+  uid                   String         @unique
   email                 String         @unique
-  password              String         @db.VarChar(200)
-  walletBalance         Decimal        @db.Money
+  walletBalance         Decimal?       @default(0) @db.Money
   holdings              Holding[]
   competitionUserOne    Competition[]  @relation(name: "competitionUserOne")
   competitionUserTwo    Competition[]  @relation(name: "competitionUserTwo")
