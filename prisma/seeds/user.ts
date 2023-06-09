@@ -1,22 +1,34 @@
 import { faker } from "@faker-js/faker"
-import { Prisma, User, Holding, PrismaClient, Athlete } from "@prisma/client"
+import { Prisma, PrismaClient, Athlete } from "@prisma/client"
 import { randomNum } from "../utils/number-utils"
 
-const genFakeUser = (): Omit<User, "id" | "createdAt" | "updatedAt"> => ({
-	username: faker.internet.userName(),
+const genFakeUser = (): Prisma.UserCreateInput => ({
 	email: faker.internet.email(),
-	password: faker.internet.password(),
 	walletBalance: new Prisma.Decimal(faker.finance.amount())
 })
 
+// TODO: Add type and sharePrice to schema for holdings, calculate profitOrLoss in trpc procedure
+
 const genFakeHolding = (
-	userId: number,
-	athleteId: number
-): Omit<Holding, "id" | "createdAt" | "updatedAt"> => ({
-	userId,
-	athleteId,
+	userId: string,
+	athleteId: string
+): Prisma.HoldingCreateInput => ({
+	user: {
+		connect: {
+			id: userId
+		}
+	},
+	athlete: {
+		connect: {
+			id: athleteId
+		}
+	},
+	// type: ["Single Stock", "Bundle Stock"],
+	// type: investmentTypes[Math.floor(Math.random() * (investmentTypes.length - 1 ))]
 	shareAmt: randomNum(1, 200),
 	purchaseDate: faker.date.recent()
+	// sharePrice:
+	// profitOrLoss:
 })
 
 export const seedUsers = async ({
@@ -46,14 +58,3 @@ export const seedUsers = async ({
 	console.log(`Seeded ${users.length} users `)
 	return users
 }
-
-// const investmentTypes = ["Single Stock", "Bundle Stock"]
-// export const genFakeInvestmentData = () => ({
-// 	type: investmentTypes[
-// 		Math.floor(Math.random() * (investmentTypes.length - 1))
-// 	],
-// 	shares: randomNum(1, 200),
-// 	sharePrice: parseFloat(faker.finance.amount(5, 100, 2)),
-// 	purchaseTimestamp: faker.date.recent(),
-// 	profitOrLoss: parseFloat(faker.finance.amount(-10000, 10000, 2))
-// })

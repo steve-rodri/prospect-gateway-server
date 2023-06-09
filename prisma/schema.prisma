@@ -12,23 +12,22 @@ datasource db {
 }
 
 model User {
-  id                    String         @id @unique
-  email                 String         @unique
+  id                    String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email                 String               @unique
   name                  String?
   phone                 String?
   dateOfBirth           DateTime?
-  walletBalance         Decimal?       @default(0) @db.Money
+  walletBalance         Decimal?             @default(0) @db.Money
   holdings              Holding[]
-  competitionUserOne    Competition[]  @relation(name: "competitionUserOne")
-  competitionUserTwo    Competition[]  @relation(name: "competitionUserTwo")
-  notificationSender    Notification[] @relation(name: "notificationSender")
-  notificationRecipient Notification[] @relation(name: "notificationRecipient")
-  createdAt             DateTime       @default(now())
-  updatedAt             DateTime       @updatedAt
+  notificationSender    Notification[]       @relation(name: "notificationSender")
+  notificationRecipient Notification[]       @relation(name: "notificationRecipient")
+  competitions          AthleteCompetition[]
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
 }
 
 model CompetitionType {
-  id             Int           @id @default(autoincrement())
+  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name           String        @db.VarChar(40)
   athleteLimit   Int?
   moneyLimit     Decimal?
@@ -39,23 +38,18 @@ model CompetitionType {
 }
 
 model Competition {
-  id                Int                  @id @default(autoincrement())
-  competitionTypeId Int
-  userOneId         String
-  userTwoId         String
-  active            Boolean              @default(true)
+  id                String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  competitionTypeId String               @db.Uuid
   startTime         DateTime             @default(now())
   endTime           DateTime?
   competitionType   CompetitionType      @relation(fields: [competitionTypeId], references: [id])
   athletes          AthleteCompetition[]
-  userOne           User?                @relation(fields: [userOneId], references: [id], name: "competitionUserOne")
-  userTwo           User?                @relation(fields: [userTwoId], references: [id], name: "competitionUserTwo")
   createdAt         DateTime             @default(now())
   updatedAt         DateTime             @updatedAt
 }
 
 model Athlete {
-  id           Int                  @id @default(autoincrement())
+  id           String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name         String               @db.VarChar(50)
   age          Int
   position     String               @db.VarChar(5)
@@ -72,7 +66,7 @@ model Athlete {
 
 model AthleteStatistics {
   athlete         Athlete  @relation(fields: [athleteId], references: [id])
-  athleteId       Int      @unique
+  athleteId       String   @unique @db.Uuid
   pointAverage    Decimal?
   reboundAverage  Decimal?
   assistAverage   Decimal?
@@ -83,27 +77,29 @@ model AthleteStatistics {
 
 model AthleteStock {
   athlete      Athlete         @relation(fields: [athleteId], references: [id])
-  athleteId    Int             @unique
+  athleteId    String          @unique @db.Uuid
   ipo          Decimal
   icp          AthleteStockICP
   priceHistory StockPrice[]
 }
 
 model AthleteCompetition {
+  userId        String      @db.Uuid
+  athleteId     String      @db.Uuid
+  competitionId String      @db.Uuid
+  user          User        @relation(fields: [userId], references: [id])
   athlete       Athlete     @relation(fields: [athleteId], references: [id])
-  athleteId     Int
   competition   Competition @relation(fields: [competitionId], references: [id])
-  competitionId Int
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
-  @@id([athleteId, competitionId])
+  @@id([userId, athleteId, competitionId])
 }
 
 model Holding {
-  id           Int      @id @default(autoincrement())
-  userId       String
-  athleteId    Int
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String   @db.Uuid
+  athleteId    String   @db.Uuid
   shareAmt     Float
   purchaseDate DateTime
   user         User     @relation(fields: [userId], references: [id])
@@ -113,18 +109,18 @@ model Holding {
 }
 
 model StockPrice {
-  id           Int          @id @default(autoincrement())
+  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  athleteId    String       @db.Uuid
   athleteStock AthleteStock @relation(fields: [athleteId], references: [athleteId])
-  athleteId    Int
   date         DateTime
   price        Decimal      @db.Money
 }
 
 model Notification {
-  id          Int                @id @default(autoincrement())
+  id          String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   type        NotificationType
-  senderId    String
-  recipientId String
+  senderId    String             @db.Uuid
+  recipientId String             @db.Uuid
   status      NotificationStatus @default(pending)
   sender      User?              @relation(name: "notificationSender", fields: [senderId], references: [id])
   recipient   User?              @relation(name: "notificationRecipient", fields: [recipientId], references: [id])

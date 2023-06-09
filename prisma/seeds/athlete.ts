@@ -1,13 +1,5 @@
 import { faker } from "@faker-js/faker"
-import {
-	Athlete,
-	AthleteStatistics,
-	Prisma,
-	AthleteStock,
-	StockPrice,
-	AthleteStockICP,
-	PrismaClient
-} from "@prisma/client"
+import { Prisma, AthleteStockICP, PrismaClient } from "@prisma/client"
 
 import { randomNum, ordinal } from "../utils/number-utils"
 
@@ -21,10 +13,7 @@ const icpTypes = [
 	AthleteStockICP.Star
 ]
 
-export const genFakeAthlete = (): Omit<
-	Athlete,
-	"id" | "createdAt" | "updatedAt"
-> => ({
+export const genFakeAthlete = (): Prisma.AthleteCreateInput => ({
 	name: faker.person.fullName(),
 	age: randomNum(18, 45),
 	photoUri: faker.image.avatar(),
@@ -34,9 +23,13 @@ export const genFakeAthlete = (): Omit<
 })
 
 export const genFakeAthleteStatistics = (
-	athleteId: number
-): AthleteStatistics => ({
-	athleteId,
+	athleteId: string
+): Prisma.AthleteStatisticsCreateInput => ({
+	athlete: {
+		connect: {
+			id: athleteId
+		}
+	},
 	pointAverage: new Prisma.Decimal(
 		faker.number.float({ min: 10, max: 100, precision: 0.1 })
 	),
@@ -57,16 +50,26 @@ export const genFakeAthleteStatistics = (
 	)
 })
 
-export const genFakeAthleteStock = (athleteId: number): AthleteStock => ({
-	athleteId,
+export const genFakeAthleteStock = (
+	athleteId: string
+): Prisma.AthleteStockCreateInput => ({
+	athlete: {
+		connect: {
+			id: athleteId
+		}
+	},
 	ipo: new Prisma.Decimal(parseFloat(faker.finance.amount(5, 1000, 2))),
 	icp: icpTypes[Math.floor(Math.random() * (icpTypes.length - 1))]
 })
 
 export const genFakeStockPrice = (
-	athleteId: number
-): Omit<StockPrice, "id"> => ({
-	athleteId,
+	athleteId: string
+): Prisma.StockPriceCreateInput => ({
+	athleteStock: {
+		connect: {
+			athleteId
+		}
+	},
 	date: faker.date.past(),
 	price: new Prisma.Decimal(faker.finance.amount(5, 100, 2))
 })

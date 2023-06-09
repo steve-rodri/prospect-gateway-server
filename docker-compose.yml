@@ -1,14 +1,14 @@
 version: '3'
 services:
-  prospect-gateway-pg:
-    container_name: prospect-gateway-pg
+  prospect-pg:
+    container_name: prospect-pg
     platform: linux/amd64 #for platform error on Apple M1 chips
     restart: unless-stopped
     image: postgres:15.2
     environment:
       POSTGRES_USER: prospect
       POSTGRES_PASSWORD: prospect
-      POSTGRES_DB: prospect_nba_gateway
+      POSTGRES_DB: gateway
     volumes:
       - prospect-data:/var/lib/postgresql/data/
       - "./docker-pg-init.sql:/docker-entrypoint-initdb.d/docker-pg-init.sql"
@@ -17,7 +17,7 @@ services:
     networks:
       - prospect
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "prospect", "-d", "prospect_nba_gateway"]
+      test: ["CMD", "pg_isready", "-U", "prospect", "-d", "gateway"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -25,12 +25,12 @@ services:
   supertokens:
       image: registry.supertokens.io/supertokens/supertokens-postgresql:5.0
       depends_on:
-        prospect-gateway-pg:
+        prospect-pg:
           condition: service_healthy
       ports:
-        - 60663:3567
+        - '60663:3567'
       environment:
-        POSTGRESQL_CONNECTION_URI: "postgresql://prospect:prospect@prospect-gateway-pg:5432/supertokens"
+        POSTGRESQL_CONNECTION_URI: "postgresql://prospect:prospect@prospect-pg:5432/supertokens"
       networks:
         - prospect
       restart: unless-stopped

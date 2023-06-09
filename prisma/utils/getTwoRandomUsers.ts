@@ -2,7 +2,7 @@ import { randomNum } from "./number-utils"
 import { User } from "@prisma/client"
 
 export const getTwoRandomUsers = (users: User[]) => {
-	const one = users.at(randomNum(0, users.length - 1))
+	const one = users.at(randomNum(0, users.length - 1)) as User
 	const two = (() => {
 		let selected = users.at(randomNum(0, users.length - 1))
 		if (!one) return
@@ -12,6 +12,6 @@ export const getTwoRandomUsers = (users: User[]) => {
 			if (newSelect) selected = newSelect
 		}
 		return selected
-	})()
-	return { one, two }
+	})() as User
+	return [one, two]
 }

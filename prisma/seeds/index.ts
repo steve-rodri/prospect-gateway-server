@@ -1,4 +1,5 @@
 export * from "./athlete"
 export * from "./competition"
+export * from "./competitionType"
 export * from "./notification"
 export * from "./user"

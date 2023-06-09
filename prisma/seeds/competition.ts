@@ -1,35 +1,47 @@
 import { faker } from "@faker-js/faker"
 import {
-	Competition,
 	User,
 	PrismaClient,
 	CompetitionType,
-	Athlete
+	Athlete,
+	Prisma
 } from "@prisma/client"
 
 import { randomNum } from "../utils/number-utils"
 import { getTwoRandomUsers } from "../utils/getTwoRandomUsers"
 
-// TODO: Determine how to handle result when competition ends
-
 const genFakeCompetition = (
-	competitionTypeId: number,
-	userOneId: number,
-	userTwoId: number
-): Omit<Competition, "id" | "createdAt" | "updatedAt"> => ({
-	competitionTypeId,
-	userOneId,
-	userTwoId,
-	active: [true, false][Math.round(Math.random())],
+	competitionTypeId: string,
+	users: User[],
+	athletes: Athlete[]
+): Prisma.CompetitionCreateInput => ({
 	startTime: faker.date.past(),
-	endTime: [null, faker.date.past()][Math.round(Math.random())]
+	endTime: [null, faker.date.past()][Math.round(Math.random())],
+	competitionType: {
+		connect: {
+			id: competitionTypeId
+		}
+	},
+	athletes: {
+		createMany: {
+			data: users
+				.map(user => {
+					return athletes.map(athlete => ({
+						userId: user.id,
+						athleteId: athlete.id
+					}))
+				})
+				.flat()
+		}
+	}
 })
 
 export const seedCompetitions = async ({
-	amount = 5,
+	amount = 15,
 	prisma,
 	competitionTypes,
-	users
+	users,
+	athletes
 }: {
 	amount?: number
 	prisma: PrismaClient
@@ -39,31 +51,26 @@ export const seedCompetitions = async ({
 }) => {
 	const competitions = await Promise.all(
 		Array.from({ length: amount }, async () => {
+			const randomUsers = getTwoRandomUsers(users)
+
 			const randomCompetitionType = competitionTypes.at(
 				randomNum(0, competitionTypes.length - 1)
-			)
-			const randomUsers = getTwoRandomUsers(users)
-			if (!randomCompetitionType) return
-			if (!randomUsers.one) return
-			if (!randomUsers.two) return
+			) as CompetitionType
+
+			// gets a random number of athletes between 0-6
+			const randomAthletes = [...athletes]
+				.sort(() => 0.5 - Math.random())
+				.slice(0, randomNum(0, 6))
+
 			return prisma.competition.create({
 				data: genFakeCompetition(
 					randomCompetitionType.id,
-					randomUsers.one.id,
-					randomUsers.two.id
+					randomUsers,
+					randomAthletes
 				)
 			})
 		})
 	)
-
-	// TODO: Figure out how to associate a user's athletes to a competition
-	// associate athletes with competitions
-	// await Promise.all(
-	// 	competitions.map(competition => {
-	// 		// await prisma.athleteCompetition.create({ })
-	// 	})
-	// )
-
 	console.log(`Seeded ${competitions.length} competitions`)
 	return competitions
 }

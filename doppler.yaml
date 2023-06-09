@@ -1,3 +1,3 @@
 setup:
-  project: nba_gateway
+  project: gateway_server
   config: dev_steve

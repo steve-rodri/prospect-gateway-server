@@ -1,16 +1,26 @@
 import { PrismaClient } from "@prisma/client"
-import { seedAthletes } from "./seeds/athlete"
-import { seedCompetitions, seedNotifications, seedUsers } from "./seeds"
-import { seedCompetitionTypes } from "./seeds/competitionType"
+import {
+	seedAthletes,
+	seedCompetitions,
+	seedCompetitionTypes,
+	seedNotifications,
+	seedUsers
+} from "./seeds"
 
 const prisma = new PrismaClient()
 
 const seedDatabase = async () => {
-	const athletes = await seedAthletes({ prisma })
-	const users = await seedUsers({ prisma, athletes })
-	await seedNotifications({ prisma, users })
-	const competitionTypes = await seedCompetitionTypes({ prisma })
-	await seedCompetitions({ prisma, competitionTypes, users, athletes })
+	const athletes = await seedAthletes({ min: 20, max: 100, prisma })
+	const users = await seedUsers({ amount: 30, prisma, athletes })
+	const competitionTypes = await seedCompetitionTypes({ amount: 5, prisma })
+	await seedNotifications({ amount: 20, prisma, users })
+	await seedCompetitions({
+		amount: 10,
+		prisma,
+		competitionTypes,
+		users,
+		athletes
+	})
 }
 
 seedDatabase()

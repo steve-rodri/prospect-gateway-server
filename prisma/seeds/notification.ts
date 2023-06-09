@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker"
 import {
-	Notification,
 	NotificationType,
 	NotificationStatus,
-	User,
-	PrismaClient
+	PrismaClient,
+	Prisma,
+	User
 } from "@prisma/client"
 import { getTwoRandomUsers } from "../utils/getTwoRandomUsers"
 
@@ -20,11 +20,18 @@ const notificationStatuses = [
 ]
 
 const genFakeNotification = (
-	senderId: number,
-	recipientId: number
-): Omit<Notification, "id" | "updatedAt"> => ({
-	senderId,
-	recipientId,
+	users: User[]
+): Prisma.NotificationCreateInput => ({
+	sender: {
+		connect: {
+			id: users[0].id
+		}
+	},
+	recipient: {
+		connect: {
+			id: users[1].id
+		}
+	},
 	type: notificationTypes[
 		Math.floor(Math.random() * (notificationTypes.length - 1))
 	],
@@ -47,10 +54,8 @@ export const seedNotifications = async ({
 	await Promise.all(
 		Array.from({ length: amount }, async () => {
 			const randomUsers = getTwoRandomUsers(users)
-			if (!randomUsers.one) return
-			if (!randomUsers.two) return
 			return prisma.notification.create({
-				data: genFakeNotification(randomUsers.one.id, randomUsers.two.id)
+				data: genFakeNotification(randomUsers)
 			})
 		})
 	)
