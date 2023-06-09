@@ -12,24 +12,6 @@ yarn
 
 ## Usage
 
-### Have Docker installed to run a postgres db
-
-[Docker Install Page](https://www.docker.com)
-
-Using Brew:
-
-```sh
-brew install docker
-
-```
-
-In a seperate shell run:
-
-```sh
-docker compose up
-
-```
-
 ### Have Doppler Installed to use Environment Variables
 
 [Doppler Docs](https://docs.doppler.com/docs)
@@ -46,7 +28,50 @@ Make sure config is set to "dev" in doppler.yaml before running:
 doppler setup
 ```
 
-Start the server:
+### Have Docker installed to run the postgres db and supertokens instance
+
+[Docker Install Page](https://www.docker.com)
+[SuperTokens](https://supertokens.com)
+
+Using Brew:
+
+```sh
+brew install docker
+
+```
+
+In a seperate shell run:
+
+```sh
+yarn db:start
+```
+
+You can change your ports for both the postgres instance
+and the supertokens instance by changing the environment
+variables "DB_PORT" and "SUPER_TOKENS_PORT" respectively.
+
+Create a new branch configuration:
+
+```sh
+doppler configs clone --name "dev_{your name}" && 
+doppler setup -p gateway_server -c "dev_{your name}"
+```
+
+Change Port:
+
+```sh
+doppler secrets set DB_PORT=15432
+doppler secrets set SUPER_TOKENS_PORT=15432
+```
+
+Be sure to remove the gateway-server containers and volumes on docker desktop
+before running:
+
+```sh
+yarn db:start
+```
+
+In a seperate shell, start the server:
 
 ```sh
 yarn start

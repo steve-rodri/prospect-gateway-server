@@ -2,17 +2,18 @@ import supertokens from "supertokens-node"
 import Dashboard from "supertokens-node/recipe/dashboard"
 import Session from "supertokens-node/recipe/session"
 import { ThirdPartyEmailPassword, EmailMagicLink } from "./recipes"
+import { SUPER_TOKENS_CONNECTION_URI, BASE_URL, CLIENT_URL } from "../env"
 
 export const initSuperTokens = () => {
 	supertokens.init({
 		framework: "express",
 		supertokens: {
-			connectionURI: "http://localhost:60663"
+			connectionURI: SUPER_TOKENS_CONNECTION_URI ?? "http://localhost:3567"
 		},
 		appInfo: {
-			appName: "prospect",
-			apiDomain: "http://localhost:5500",
-			websiteDomain: "http://localhost:19000",
+			appName: "gateway-server",
+			apiDomain: BASE_URL ?? "http://localhost:5500",
+			websiteDomain: CLIENT_URL ?? "http://localhost:19000",
 			apiBasePath: "/auth",
 			websiteBasePath: "/auth"
 		},

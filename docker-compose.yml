@@ -13,7 +13,7 @@ services:
       - prospect-data:/var/lib/postgresql/data/
       - "./docker-pg-init.sql:/docker-entrypoint-initdb.d/docker-pg-init.sql"
     ports:
-      - '60662:5432'
+      - '${DB_PORT}:5432'
     networks:
       - prospect
     healthcheck:
@@ -28,7 +28,7 @@ services:
         prospect-pg:
           condition: service_healthy
       ports:
-        - '60663:3567'
+        - '${SUPER_TOKENS_PORT}:3567'
       environment:
         POSTGRESQL_CONNECTION_URI: "postgresql://prospect:prospect@prospect-pg:5432/supertokens"
       networks:
@@ -36,7 +36,7 @@ services:
       restart: unless-stopped
       healthcheck:
         test: >
-          bash -c 'exec 3<>/dev/tcp/127.0.0.1/3567 && echo -e "GET /hello HTTP/1.1\r\nhost: 127.0.0.1:3567\r\nConnection: close\r\n\r\n" >&3 && cat <&3 | grep "Hello"'
+          bash -c 'exec 3<>/dev/tcp/127.0.0.1/${SUPER_TOKENS_PORT} && echo -e "GET /hello HTTP/1.1\r\nhost: 127.0.0.1:${SUPER_TOKENS_PORT}\r\nConnection: close\r\n\r\n" >&3 && cat <&3 | grep "Hello"'
         interval: 10s
         timeout: 5s
         retries: 5

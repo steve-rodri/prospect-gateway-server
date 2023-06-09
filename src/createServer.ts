@@ -11,6 +11,7 @@ import {
 	errorHandler
 } from "supertokens-node/framework/express"
 
+import { CLIENT_URL } from "./env"
 import { loggerMiddleware } from "./logger"
 import { appRouter, createContext } from "./trpc"
 import { ApplicationServer } from "./types"
@@ -28,7 +29,7 @@ export const createServer = async (): Promise<ApplicationServer> => {
 	app.use(express.json())
 	app.use(
 		cors({
-			origin: "http://localhost:19000",
+			origin: CLIENT_URL,
 			allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
 			credentials: true
 		})
