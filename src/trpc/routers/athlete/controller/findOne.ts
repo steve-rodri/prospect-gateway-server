@@ -9,10 +9,14 @@ export const findOne: ControllerMethod<
 	{ input: { id: string }; ctx: AuthContext }
 > = async ({ input, ctx }) => {
 	const athlete = await ctx.prisma.athlete.findUnique({
-		where: { id: Number(input.id) },
+		where: { id: input.id },
 		include: {
 			statistics: true,
-			stock: true
+			stock: {
+				include: {
+					priceHistory: true
+				}
+			}
 		}
 	})
 	if (!athlete)

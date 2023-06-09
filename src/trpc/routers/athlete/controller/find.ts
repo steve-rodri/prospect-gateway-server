@@ -21,7 +21,11 @@ export const find: ControllerMethod<Athlete[], Find> = async ({
 		distinct: "name",
 		include: {
 			statistics: true,
-			stock: true
+			stock: {
+				include: {
+					priceHistory: true
+				}
+			}
 		}
 	})
 }
