@@ -29,6 +29,7 @@ export const createServer = async (): Promise<ApplicationServer> => {
 	app.use(express.json())
 	app.use(
 		cors({
+			// TODO: Add Origin for Mobile App
 			origin: CLIENT_URL,
 			allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
 			credentials: true
