@@ -1,12 +1,11 @@
 import { PrismaClient } from "@prisma/client"
 import EmailPassword from "supertokens-node/recipe/thirdpartyemailpassword"
 import { apple, google } from "./providers"
-const { Apple, Google } = EmailPassword
 
 const prisma = new PrismaClient()
 
 export const ThirdPartyEmailPassword = EmailPassword.init({
-	providers: [Google(google), Apple(apple)],
+	providers: [EmailPassword.Google(google), EmailPassword.Apple(apple)],
 	signUpFeature: {
 		formFields: [
 			{
