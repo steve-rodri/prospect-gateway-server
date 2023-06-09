@@ -8,11 +8,8 @@ type Update = ControllerMethod<
 >
 
 export const update: Update = async ({ input, ctx }) => {
-	const { prisma } = ctx
-	const { id, status } = input
-
-	await prisma.notification.update({
-		where: { id: Number(id) },
-		data: { status }
+	await ctx.prisma.notification.update({
+		where: { id: input.id },
+		data: { status: input.status }
 	})
 }
