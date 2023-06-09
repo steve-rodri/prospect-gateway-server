@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "doppler run -- nodemon src/index.ts",
     "start": "doppler run -- nodemon src/index.ts",
+    "db:start": "doppler run -- docker compose up",
     "db:migrate": "doppler run -- npx prisma migrate dev",
     "db:seed": "doppler run -- npx prisma db seed",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx}\""
