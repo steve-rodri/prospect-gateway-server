@@ -9,11 +9,35 @@ export const me: Me = async ({ ctx }) => {
 	return ctx.prisma.user.findUnique({
 		where: { id: ctx.user.id },
 		include: {
-			holdings: true,
-			competitionUserOne: true,
-			competitionUserTwo: true,
-			notificationSender: true,
-			notificationRecipient: true
+			sentNotifications: {
+				include: {
+					recipient: true
+				}
+			},
+			receivedNotifications: {
+				include: {
+					sender: true
+				}
+			},
+			holdings: {
+				include: {
+					athlete: {
+						include: {
+							stock: true
+						}
+					}
+				}
+			},
+			competitions: {
+				include: {
+					athlete: {
+						include: {
+							stock: true
+						}
+					},
+					competition: true
+				}
+			}
 		}
 	})
 }

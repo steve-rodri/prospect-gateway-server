@@ -14,11 +14,35 @@ export const update: Update = async ({ input, ctx }) => {
 		where: { id: input.id },
 		data: input,
 		include: {
-			holdings: true,
-			competitionUserOne: true,
-			competitionUserTwo: true,
-			notificationSender: true,
-			notificationRecipient: true
+			sentNotifications: {
+				include: {
+					recipient: true
+				}
+			},
+			receivedNotifications: {
+				include: {
+					sender: true
+				}
+			},
+			holdings: {
+				include: {
+					athlete: {
+						include: {
+							stock: true
+						}
+					}
+				}
+			},
+			competitions: {
+				include: {
+					athlete: {
+						include: {
+							stock: true
+						}
+					},
+					competition: true
+				}
+			}
 		}
 	})
 }

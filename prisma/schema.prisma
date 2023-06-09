@@ -19,8 +19,8 @@ model User {
   dateOfBirth           DateTime?
   walletBalance         Decimal?             @default(0) @db.Money
   holdings              Holding[]
-  notificationSender    Notification[]       @relation(name: "notificationSender")
-  notificationRecipient Notification[]       @relation(name: "notificationRecipient")
+  sentNotifications     Notification[]       @relation(name: "notificationSender")
+  receivedNotifications Notification[]       @relation(name: "notificationRecipient")
   competitions          AthleteCompetition[]
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
