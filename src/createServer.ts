@@ -5,6 +5,7 @@ import cors from "cors"
 import express from "express"
 import http from "http"
 import supertokens from "supertokens-node"
+import { verifySession } from "supertokens-node/recipe/session/framework/express"
 import {
 	middleware as supertokensMiddleware,
 	errorHandler
@@ -34,7 +35,7 @@ export const createServer = async (): Promise<ApplicationServer> => {
 	)
 	app.use(supertokensMiddleware())
 	app.use(compression())
-	app.use("/trpc", trpcExpressMiddleware)
+	app.use("/trpc", verifySession(), trpcExpressMiddleware)
 	app.use(errorHandler())
 	return {
 		app: http.createServer(app),

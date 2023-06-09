@@ -1,15 +1,17 @@
 import { PrismaClient } from "@prisma/client"
 import { inferAsyncReturnType } from "@trpc/server"
 import { CreateExpressContextOptions } from "@trpc/server/adapters/express"
-import Session from "supertokens-node/recipe/session"
+import { SessionRequest } from "supertokens-node/framework/express"
 
-type ContextOpts = CreateExpressContextOptions
+type ContextOpts = {
+	req: CreateExpressContextOptions["req"] & SessionRequest
+	res: CreateExpressContextOptions["res"]
+}
 
-export const createContext = async ({ req, res }: ContextOpts) => {
+export const createContext = async ({ req }: ContextOpts) => {
 	const prisma = new PrismaClient()
-	const session = await Session.getSession(req, res)
-	if (session) {
-		const id = session.getUserId()
+	if (req.session) {
+		const id = req.session.getUserId()
 		return { user: { id }, prisma }
 	}
 	return { prisma }
