@@ -71,10 +71,39 @@ before running:
 yarn db:start
 ```
 
-In a seperate shell, start the server:
+### Run Migrations and Seed Database
+
+In a seperate shell/terminal, run:
+
+```sh
+yarn db:migrate
+```
+
+This will bootstrap the database with all tables and fields
+defined in the /prisma/schema.prisma file and run any migrations
+in prisma/migrations
+
+Then run:
+
+```sh
+yarn db:seed
+```
+
+This will seed the database with fake data for development purposes.
+We won't use this in production of course.
+
+## Start the server
+
+Run:
 
 ```sh
 yarn start
+```
+
+or
+
+```sh
+yarn dev
 ```
 
 ## Author
