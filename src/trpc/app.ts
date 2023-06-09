@@ -1,10 +1,16 @@
 import { router } from "./init"
-import { userRouter, athleteRouter, notificationRouter } from "./routers"
+import {
+	athleteRouter,
+	competitionRouter,
+	notificationRouter,
+	userRouter
+} from "./routers"
 
 export const appRouter = router({
-	user: userRouter,
 	athlete: athleteRouter,
-	notification: notificationRouter
+	competition: competitionRouter,
+	notification: notificationRouter,
+	user: userRouter
 })
 
 export type AppRouter = typeof appRouter
