@@ -15,6 +15,7 @@ yarn
 ### Have Doppler Installed to use Environment Variables
 
 [Getting Started with Doppler](https://docs.doppler.com/docs/getting-started)
+[How to Install Doppler](https://docs.doppler.com/docs/install-cli)
 
 You need access to the prospectsportsinc workspace in order to access env vars
 
