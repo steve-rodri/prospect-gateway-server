@@ -21,7 +21,7 @@ export const initSuperTokens = () => {
 			ThirdPartyEmailPassword,
 			EmailMagicLink,
 			Session.init(),
-			Dashboard.init()
+			Dashboard.init() // enables dashboard at /auth/dashboard
 		]
 	})
 }

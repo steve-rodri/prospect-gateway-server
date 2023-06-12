@@ -45,9 +45,11 @@ export const ThirdPartyEmailPassword = EmailPassword.init({
 						const dateOfBirthField = formFields.find(
 							field => field.id === "dateOfBirth"
 						)
-						// Create the user in the gateway db
-						await prisma.user.create({
-							data: {
+						await prisma.user.upsert({
+							where: {
+								id: user.id
+							},
+							create: {
 								id: user.id,
 								email: user.email,
 								name: nameField?.value ?? null,
@@ -56,7 +58,36 @@ export const ThirdPartyEmailPassword = EmailPassword.init({
 									? new Date(dateOfBirthField.value)
 									: null,
 								createdAt: new Date(user.timeJoined)
+							},
+							update: {
+								name: nameField?.value ?? null,
+								phone: phoneField?.value ?? null,
+								dateOfBirth: dateOfBirthField?.value
+									? new Date(dateOfBirthField.value)
+									: null
 							}
+						})
+					}
+					return response
+				},
+				emailPasswordSignInPOST: async input => {
+					if (originalImplementation.emailPasswordSignInPOST === undefined) {
+						throw Error("Should never come here")
+					}
+					let response = await originalImplementation.emailPasswordSignInPOST(
+						input
+					)
+					if (response.status === "OK") {
+						const user = response.user
+						await prisma.user.upsert({
+							where: {
+								id: user.id
+							},
+							create: {
+								id: user.id,
+								email: user.email
+							},
+							update: {}
 						})
 					}
 					return response
