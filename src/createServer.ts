@@ -17,6 +17,7 @@ import { appRouter, createContext } from "./trpc"
 import { ApplicationServer } from "./types"
 import { initSuperTokens } from "./supertokens/init"
 import { renderTrpcPanel } from "trpc-panel"
+import { expressHandler } from "trpc-playground/handlers/express"
 
 const trpcExpressMiddleware = createExpressMiddleware({
 	router: appRouter,
@@ -39,6 +40,26 @@ export const createServer = async (): Promise<ApplicationServer> => {
 	app.use(supertokensMiddleware())
 	app.use(compression())
 	app.use("/trpc", verifySession(), trpcExpressMiddleware)
+
+	// TODO: Get Trpc playground to work
+	app.use(
+		"/trpc-playground",
+		await expressHandler({
+			trpcApiEndpoint: "/trpc",
+			playgroundEndpoint: "/trpc-playground",
+			router: appRouter
+			// request: {
+			// 	globalHeaders: {
+			// 		Authorization: `Bearer ${process.env.CLIENT_TOKEN}`
+			// 	}
+			// },
+
+			// uncomment this if you're using superjson
+			// request: {
+			//   superjson: true,
+			// },
+		})
+	)
 
 	app.use("/panel", (_, res) => {
 		return res.send(renderTrpcPanel(appRouter, { url: `${BASE_URL}/trpc` }))
