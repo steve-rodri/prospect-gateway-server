@@ -15,7 +15,8 @@ export const find: ControllerMethod<Athlete[], Find> = async ({
 	return ctx.prisma.athlete.findMany({
 		where: {
 			name: {
-				search: input?.search
+				contains: input?.search,
+				mode: "insensitive"
 			}
 		},
 		distinct: "name",
