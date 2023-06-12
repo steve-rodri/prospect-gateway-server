@@ -6,7 +6,7 @@ import * as AthleteController from "./controller"
 
 export const athleteRouter = router({
 	find: protectedProcedure
-		.input(z.object({ search: z.string() }).optional())
+		.input(z.object({ search: z.string().optional() }).optional())
 		.query(AthleteController.find),
 	findOne: protectedProcedure
 		.input(z.object({ id: z.string() }))

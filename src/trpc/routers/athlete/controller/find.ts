@@ -4,7 +4,7 @@ import { ControllerMethod } from "../../types"
 import { Context } from "../../../context"
 
 type Find = {
-	input?: { search: string }
+	input?: { search?: string }
 	ctx: Context
 }
 
@@ -20,10 +20,23 @@ export const find: ControllerMethod<Athlete[], Find> = async ({
 		},
 		distinct: "name",
 		include: {
-			statistics: true,
+			statistics: {
+				select: {
+					pointAverage: true,
+					reboundAverage: true,
+					assistAverage: true,
+					blockAverage: true,
+					stealAverage: true,
+					turnoverAverage: true
+				}
+			},
 			stock: {
-				include: {
-					priceHistory: true
+				select: {
+					ipo: true,
+					icp: true,
+					priceHistory: {
+						select: { date: true, price: true }
+					}
 				}
 			}
 		}

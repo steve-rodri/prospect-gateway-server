@@ -11,10 +11,23 @@ export const findOne: ControllerMethod<
 	const athlete = await ctx.prisma.athlete.findUnique({
 		where: { id: input.id },
 		include: {
-			statistics: true,
+			statistics: {
+				select: {
+					pointAverage: true,
+					reboundAverage: true,
+					assistAverage: true,
+					blockAverage: true,
+					stealAverage: true,
+					turnoverAverage: true
+				}
+			},
 			stock: {
-				include: {
-					priceHistory: true
+				select: {
+					ipo: true,
+					icp: true,
+					priceHistory: {
+						select: { date: true, price: true }
+					}
 				}
 			}
 		}
