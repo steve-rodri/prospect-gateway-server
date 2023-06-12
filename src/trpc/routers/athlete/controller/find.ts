@@ -1,11 +1,11 @@
 import { Athlete } from "@prisma/client"
 
 import { ControllerMethod } from "../../types"
-import { AuthContext } from "../../../context"
+import { Context } from "../../../context"
 
 type Find = {
 	input?: { search: string }
-	ctx: AuthContext
+	ctx: Context
 }
 
 export const find: ControllerMethod<Athlete[], Find> = async ({

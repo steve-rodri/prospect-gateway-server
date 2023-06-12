@@ -1,13 +1,13 @@
 import { User } from "@prisma/client"
 
 import { ControllerMethod } from "../../types"
-import { AuthContext } from "../../../context"
+import { Context } from "../../../context"
 
-type Me = ControllerMethod<User | null, { ctx: AuthContext }>
+type Me = ControllerMethod<User | null, { ctx: Context }>
 
 export const me: Me = async ({ ctx }) => {
 	return ctx.prisma.user.findUnique({
-		where: { id: ctx.user.id },
+		where: { id: ctx.user?.id },
 		include: {
 			sentNotifications: {
 				include: {

@@ -2,12 +2,9 @@ import { User } from "@prisma/client"
 
 import { UserUpdateSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { AuthContext } from "../../../context"
+import { Context } from "../../../context"
 
-type Update = ControllerMethod<
-	User,
-	{ input: UserUpdateSchema; ctx: AuthContext }
->
+type Update = ControllerMethod<User, { input: UserUpdateSchema; ctx: Context }>
 
 export const update: Update = async ({ input, ctx }) => {
 	return ctx.prisma.user.update({

@@ -2,11 +2,11 @@ import { NotificationType } from "../types"
 
 import { NotificationCreateSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { AuthContext } from "../../../context"
+import { Context } from "../../../context"
 
 type Create = ControllerMethod<
 	Notification,
-	{ input: NotificationCreateSchema; ctx: AuthContext }
+	{ input: NotificationCreateSchema; ctx: Context }
 >
 
 export const create: Create = async ({ input, ctx }) => {

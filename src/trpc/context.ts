@@ -18,8 +18,3 @@ export const createContext = async ({ req }: ContextOpts) => {
 }
 
 export type Context = inferAsyncReturnType<typeof createContext>
-
-export type AuthContext = {
-	user: { id: string }
-	prisma: PrismaClient
-}

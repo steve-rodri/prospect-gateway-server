@@ -1,11 +1,11 @@
 import { CompetitionCreateSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { AuthContext } from "../../../context"
+import { Context } from "../../../context"
 import { Competition } from "@prisma/client"
 
 type Create = ControllerMethod<
 	Competition,
-	{ input: CompetitionCreateSchema; ctx: AuthContext }
+	{ input: CompetitionCreateSchema; ctx: Context }
 >
 
 export const create: Create = async ({ input, ctx }) => {

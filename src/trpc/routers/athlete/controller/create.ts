@@ -3,13 +3,13 @@ import axios from "axios"
 
 import { AthleteSearchSchema } from "../validators"
 import { ControllerMethod } from "../../types"
-import { AuthContext } from "../../../context"
+import { Context } from "../../../context"
 
 const NBA_API_BASE = process.env.NBA_API_BASE
 
 type Create = ControllerMethod<
 	Athlete,
-	{ input: AthleteSearchSchema; ctx: AuthContext }
+	{ input: AthleteSearchSchema; ctx: Context }
 >
 
 export const create: Create = async ({ input, ctx }) => {
