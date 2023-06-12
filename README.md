@@ -61,8 +61,8 @@ doppler setup -p gateway_server -c "dev_{your name}"
 Change Port:
 
 ```sh
-doppler secrets set DB_PORT=15432
-doppler secrets set SUPER_TOKENS_PORT=15432
+doppler secrets set DB_PORT=60662
+doppler secrets set SUPER_TOKENS_PORT=60663
 ```
 
 Be sure to remove the gateway-server containers and volumes on docker desktop
@@ -107,11 +107,41 @@ or
 yarn dev
 ```
 
+## tRPC Panel
+
 Visit [http://localhost:5500/panel](http://localhost:5500/panel)
 to view how the api works. In order to use it, you will need to generate
 an access token on the client. Then you want to select headers at the top right
 and add a header. The key should be "Authorization" and the value should be
 "Bearer ACCESS_TOKEN"
+
+## Auth Dashboard
+
+Use this command to create a new Admin User for the panel:
+
+```sh
+curl --location --request POST 'http://localhost:3567/recipe/dashboard/user' \
+--header 'rid: dashboard' \
+--header 'Content-Type: application/json' \
+--data-raw '{"email": "<YOUR_EMAIL>","password": "<YOUR_PASSWORD>"}'
+```
+
+Be sure to substitute your email and password in the above command.
+
+Visit [http://localhost:5500/auth/dashboard](http://localhost:5500/auth/dashboard)
+and sign in using your credentials
+
+## Ports
+
+A Note on ports...
+
+Bear in mind for the above commands that if you have changed the ports for
+the server or the supertokens instance, you will need to update the urls above
+to use those ports.
+
+Default Server Port: 5500
+Default Supertokens Port: 3567
+Default DB Port: 5432
 
 ## Author
 
