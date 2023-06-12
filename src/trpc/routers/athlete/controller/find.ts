@@ -21,7 +21,7 @@ export const find: ControllerMethod<Athlete[], Find> = async ({
 		},
 		distinct: "name",
 		include: {
-			statistics: {
+			stats: {
 				select: {
 					pointAverage: true,
 					reboundAverage: true,

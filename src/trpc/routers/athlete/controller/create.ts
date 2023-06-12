@@ -23,7 +23,7 @@ export const create: Create = async ({ input, ctx }) => {
 	const found = await prisma.athlete.findFirst({
 		where: { id: athleteData.data.id },
 		include: {
-			statistics: true,
+			stats: true,
 			stock: {
 				include: {
 					priceHistory: true
@@ -64,7 +64,7 @@ export const create: Create = async ({ input, ctx }) => {
 				}
 			},
 			include: {
-				statistics: true,
+				stats: true,
 				stock: {
 					include: {
 						priceHistory: true

@@ -24,7 +24,7 @@ export const findOrCreate: FindOrCreate = async ({ input, ctx }) => {
 		const athlete = await prisma.athlete.findFirst({
 			where: { name: { search: fullName } },
 			include: {
-				statistics: true,
+				stats: true,
 				stock: true
 			}
 		})

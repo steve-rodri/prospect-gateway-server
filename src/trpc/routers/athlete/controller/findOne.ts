@@ -11,7 +11,7 @@ export const findOne: ControllerMethod<
 	const athlete = await ctx.prisma.athlete.findUnique({
 		where: { id: input.id },
 		include: {
-			statistics: {
+			stats: {
 				select: {
 					pointAverage: true,
 					reboundAverage: true,

@@ -56,7 +56,7 @@ model Athlete {
   photoUri     String
   teamAbbr     String               @db.VarChar(5)
   draftPick    String
-  statistics   AthleteStatistics?
+  stats        AthleteStatistics?
   stock        AthleteStock?
   userHoldings Holding[]
   competitions AthleteCompetition[]
