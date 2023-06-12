@@ -107,6 +107,12 @@ or
 yarn dev
 ```
 
+Visit [http://localhost:5500/panel](http://localhost:5500/panel)
+to view how the api works. In order to use it, you will need to generate
+an access token on the client. Then you want to select headers at the top right
+and add a header. The key should be "Authorization" and the value should be
+"Bearer ACCESS_TOKEN"
+
 ## Author
 
 👤 **Prospect**
