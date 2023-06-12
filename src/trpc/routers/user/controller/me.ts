@@ -2,11 +2,12 @@ import { User } from "@prisma/client"
 
 import { ControllerMethod } from "../../types"
 import { Context } from "../../../context"
+import { TRPCError } from "@trpc/server"
 
 type Me = ControllerMethod<User | null, { ctx: Context }>
 
 export const me: Me = async ({ ctx }) => {
-	return ctx.prisma.user.findUnique({
+	const user = await ctx.prisma.user.findUnique({
 		where: { id: ctx.user?.id },
 		include: {
 			sentNotifications: {
@@ -40,4 +41,7 @@ export const me: Me = async ({ ctx }) => {
 			}
 		}
 	})
+	if (!user)
+		throw new TRPCError({ code: "NOT_FOUND", message: "No User found" })
+	return user
 }
