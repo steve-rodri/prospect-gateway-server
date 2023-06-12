@@ -11,11 +11,12 @@ import {
 	errorHandler
 } from "supertokens-node/framework/express"
 
-import { CLIENT_URL } from "./env"
+import { BASE_URL, CLIENT_URL } from "./env"
 import { loggerMiddleware } from "./logger"
 import { appRouter, createContext } from "./trpc"
 import { ApplicationServer } from "./types"
 import { initSuperTokens } from "./supertokens/init"
+import { renderTrpcPanel } from "trpc-panel"
 
 const trpcExpressMiddleware = createExpressMiddleware({
 	router: appRouter,
@@ -38,6 +39,11 @@ export const createServer = async (): Promise<ApplicationServer> => {
 	app.use(supertokensMiddleware())
 	app.use(compression())
 	app.use("/trpc", verifySession(), trpcExpressMiddleware)
+
+	app.use("/panel", (_, res) => {
+		return res.send(renderTrpcPanel(appRouter, { url: `${BASE_URL}/trpc` }))
+	})
+
 	app.use(errorHandler())
 	return {
 		app: http.createServer(app),
