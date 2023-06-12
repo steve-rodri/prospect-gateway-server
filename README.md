@@ -143,6 +143,14 @@ Default Server Port: 5500
 Default Supertokens Port: 3567
 Default DB Port: 5432
 
+## Prisma Studio
+
+Run the following to launch a GUI for the database:
+
+```sh
+yarn db:studio
+```
+
 ## Author
 
 👤 **Prospect**
