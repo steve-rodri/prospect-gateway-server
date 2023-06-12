@@ -50,9 +50,11 @@ export const ThirdPartyEmailPassword = EmailPassword.init({
 							data: {
 								id: user.id,
 								email: user.email,
-								name: nameField?.value,
-								phone: phoneField?.value,
-								dateOfBirth: dateOfBirthField?.value,
+								name: nameField?.value ?? null,
+								phone: phoneField?.value ?? null,
+								dateOfBirth: dateOfBirthField?.value
+									? new Date(dateOfBirthField.value)
+									: null,
 								createdAt: new Date(user.timeJoined)
 							}
 						})
