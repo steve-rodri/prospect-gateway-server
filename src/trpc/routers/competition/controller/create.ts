@@ -9,5 +9,10 @@ type Create = ControllerMethod<
 >
 
 export const create: Create = async ({ input, ctx }) => {
-	return ctx.prisma.competition.create({ data: input })
+	return ctx.prisma.competition.create({
+		data: {
+			competitionTypeId: input.competitionTypeId,
+			athletes: { createMany: { data: input.athletes } }
+		}
+	})
 }
