@@ -8,9 +8,11 @@ import {
 
 export const notificationRouter = router({
 	create: protectedProcedure
+		.meta({ description: "Creates a new Notification" })
 		.input(notificationCreateSchema)
 		.mutation(NotificationController.create),
 	update: protectedProcedure
+		.meta({ description: "Updates a Notification" })
 		.input(notificationUpdateSchema)
 		.mutation(NotificationController.update)
 })

@@ -1,7 +1,17 @@
 import { z } from "zod"
 
 export const competitionCreateSchema = z.object({
-	competitionTypeId: z.string()
+	competitionTypeId: z
+		.string()
+		.describe("The id of the related competition type"),
+	athletes: z
+		.array(
+			z.object({
+				userId: z.string(),
+				athleteId: z.string()
+			})
+		)
+		.describe("An array of objects containing user and athlete ids")
 })
 
 export const competitionUpdateSchema = z.object({

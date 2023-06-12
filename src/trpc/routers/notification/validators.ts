@@ -2,12 +2,14 @@ import { z } from "zod"
 import { NotificationStatus, NotificationType } from "./types"
 
 export const notificationCreateSchema = z.object({
-	notificationType: z.union([
-		z.literal(NotificationType.COMPETITION),
-		z.literal(NotificationType.FRIENDREQUEST)
-	]),
-	senderId: z.string(),
-	recipientId: z.string()
+	notificationType: z
+		.union([
+			z.literal(NotificationType.COMPETITION),
+			z.literal(NotificationType.FRIENDREQUEST)
+		])
+		.describe("the type of notification. i.e. 'Friend Request' "),
+	senderId: z.string().describe("the user id of the sender"),
+	recipientId: z.string().describe("the user id of the recipient")
 })
 
 export const notificationUpdateSchema = z.object({
