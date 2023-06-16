@@ -37,8 +37,8 @@ To setup environment variables
 
 ### Have Docker Desktop installed to run the postgres db and supertokens instance
 
-[Docker Install Page](https://www.docker.com)
-[SuperTokens](https://supertokens.com)
+- [Docker Install Page](https://www.docker.com)
+- [SuperTokens](https://supertokens.com)
 
 Using Brew:
 
@@ -114,9 +114,9 @@ and sign in using your credentials
 
 ## Ports
 
-Default Server Port: 5500
-Default Supertokens Port: 3567
-Default DB Port: 5432
+- Default Server Port: 5500
+- Default Supertokens Port: 3567
+- Default DB Port: 5432
 
 ## Prisma Studio
 
