@@ -1,9 +1,10 @@
 import { z } from "zod"
 
-export const athleteSearchSchema = z.object({
-	firstName: z.string(),
-	lastName: z.string(),
-	suffix: z.string()
+export const athleteFindSchema = z.object({
+	search: z
+		.string()
+		.optional()
+		.describe("string to search for an athlete by name")
 })
 
-export type AthleteSearchSchema = z.infer<typeof athleteSearchSchema>
+export type AthleteFindSchema = z.infer<typeof athleteFindSchema>

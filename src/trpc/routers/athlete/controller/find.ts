@@ -2,9 +2,10 @@ import { Athlete } from "@prisma/client"
 
 import { ControllerMethod } from "../../types"
 import { Context } from "../../../context"
+import { AthleteFindSchema } from "../validators"
 
 type Find = {
-	input?: { search?: string }
+	input?: AthleteFindSchema
 	ctx: Context
 }
 
