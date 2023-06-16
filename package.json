@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "env": "echo 'dp.st.dev.b8diwJQUFuhGXhBtz3DcHSRtD8kjCV9KrmVqgkfDMi6' | doppler configure set token --scope $(pwd)",
+    "env": "echo 'dp.st.dev.qRLxhtmvZKTOwT1mKoFmixW5f0ejWN4tN1UMc4tfBGr' | doppler configure set token --scope $(pwd)",
     "dev": "doppler run -- nodemon src/index.ts",
     "start": "doppler run -- nodemon src/index.ts",
     "db:studio": "doppler run -- npx prisma studio",
