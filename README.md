@@ -17,19 +17,25 @@ yarn
 - [Getting Started with Doppler](https://docs.doppler.com/docs/getting-started)
 - [How to Install Doppler](https://docs.doppler.com/docs/install-cli)
 
-You need access to the prospectsportsinc workspace in order to access env vars
+Using Brew:
 
 ```sh
-doppler login
+# Prerequisite. gnupg is required for binary signature verification
+brew install gnupg
+
+# Next, install using brew (use `doppler update` for subsequent updates)
+brew install dopplerhq/cli/doppler
 ```
 
-Make sure config is set to "dev" in doppler.yaml before running:
+Then run:
 
 ```sh
-doppler setup
+yarn env
 ```
 
-### Have Docker installed to run the postgres db and supertokens instance
+To setup environment variables
+
+### Have Docker Desktop installed to run the postgres db and supertokens instance
 
 [Docker Install Page](https://www.docker.com)
 [SuperTokens](https://supertokens.com)
@@ -41,32 +47,7 @@ brew install homebrew/cask/docker
 brew install docker-compose
 ```
 
-In a seperate shell run:
-
-```sh
-yarn db:start
-```
-
-You can change your ports for both the postgres instance
-and the supertokens instance by changing the environment
-variables "DB_PORT" and "SUPER_TOKENS_PORT" respectively.
-
-Create a new branch configuration:
-
-```sh
-doppler configs clone --name "dev_{your name}" && 
-doppler setup -c "dev_{your name}"
-```
-
-Change Port:
-
-```sh
-doppler secrets set DB_PORT=60662
-doppler secrets set SUPER_TOKENS_PORT=60663
-```
-
-Be sure to remove the gateway-server containers and volumes on docker desktop
-before running:
+Make sure docker desktop is running, then run:
 
 ```sh
 yarn db:start
@@ -132,12 +113,6 @@ Visit [http://localhost:5500/auth/dashboard](http://localhost:5500/auth/dashboar
 and sign in using your credentials
 
 ## Ports
-
-A Note on ports...
-
-Bear in mind for the above commands that if you have changed the ports for
-the server or the supertokens instance, you will need to update the urls above
-to use those ports.
 
 Default Server Port: 5500
 Default Supertokens Port: 3567
