@@ -1,2 +1,2 @@
-export * from "./ThirdPartyEmailPassword"
 export * from "./EmailMagicLink"
+export * from "./ThirdPartyEmailPassword"

@@ -1,5 +1,5 @@
-import { Server } from "http"
 import { PrismaClient } from "@prisma/client"
+import { Server } from "http"
 
 export interface ApplicationServer {
 	app: Server

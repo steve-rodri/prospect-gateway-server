@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 import EmailPassword from "supertokens-node/recipe/thirdpartyemailpassword"
+
 import { apple, google } from "./providers"
 
 const prisma = new PrismaClient()
@@ -31,7 +32,7 @@ export const ThirdPartyEmailPassword = EmailPassword.init({
 						throw Error("Should never come here")
 
 					// First we call the original implementation
-					let response = await originalImplementation.emailPasswordSignUpPOST(
+					const response = await originalImplementation.emailPasswordSignUpPOST(
 						input
 					)
 
@@ -74,7 +75,7 @@ export const ThirdPartyEmailPassword = EmailPassword.init({
 					if (originalImplementation.emailPasswordSignInPOST === undefined) {
 						throw Error("Should never come here")
 					}
-					let response = await originalImplementation.emailPasswordSignInPOST(
+					const response = await originalImplementation.emailPasswordSignInPOST(
 						input
 					)
 					if (response.status === "OK") {

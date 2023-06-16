@@ -1,11 +1,12 @@
 import { faker } from "@faker-js/faker"
 import {
-	NotificationType,
 	NotificationStatus,
-	PrismaClient,
+	NotificationType,
 	Prisma,
+	PrismaClient,
 	User
 } from "@prisma/client"
+
 import { getTwoRandomUsers } from "../utils/getTwoRandomUsers"
 
 const notificationTypes = [

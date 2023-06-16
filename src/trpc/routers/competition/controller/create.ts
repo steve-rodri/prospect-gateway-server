@@ -1,7 +1,8 @@
-import { CompetitionCreateSchema } from "../validators"
-import { ControllerMethod } from "../../types"
-import { Context } from "../../../context"
 import { Competition } from "@prisma/client"
+
+import { Context } from "../../../context"
+import { ControllerMethod } from "../../types"
+import { CompetitionCreateSchema } from "../validators"
 
 type Create = ControllerMethod<
 	Competition,

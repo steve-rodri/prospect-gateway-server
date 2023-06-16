@@ -1,7 +1,8 @@
-import { CompetitionUpdateSchema } from "../validators"
-import { ControllerMethod } from "../../types"
-import { Context } from "../../../context"
 import { Competition } from "@prisma/client"
+
+import { Context } from "../../../context"
+import { ControllerMethod } from "../../types"
+import { CompetitionUpdateSchema } from "../validators"
 
 type Update = ControllerMethod<
 	Competition,

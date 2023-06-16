@@ -1,4 +1,5 @@
 import { z } from "zod"
+
 import { router } from "../../init"
 import { protectedProcedure } from "../../protectedProcedure"
 import * as AthleteController from "./controller"

@@ -1,6 +1,7 @@
-import Passwordless from "supertokens-node/recipe/thirdpartypasswordless"
-import { google, apple } from "./providers"
 import { PrismaClient } from "@prisma/client"
+import Passwordless from "supertokens-node/recipe/thirdpartypasswordless"
+
+import { apple,google } from "./providers"
 
 const prisma = new PrismaClient()
 
@@ -17,7 +18,7 @@ export const EmailMagicLink = Passwordless.init({
 						throw Error("Should never come here")
 
 					// First we call the original implementation
-					let response = await originalImplementation.thirdPartySignInUpPOST(
+					const response = await originalImplementation.thirdPartySignInUpPOST(
 						input
 					)
 					// If sign up was successful

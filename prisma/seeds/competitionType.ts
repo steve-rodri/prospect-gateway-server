@@ -1,7 +1,7 @@
+import { faker } from "@faker-js/faker"
 import { Prisma, PrismaClient } from "@prisma/client"
 
 import { randomNum } from "../utils/number-utils"
-import { faker } from "@faker-js/faker"
 
 const genFakeCompetitionType = (): Prisma.CompetitionTypeCreateInput => ({
 	name: faker.word.words({ count: { min: 1, max: 2 } }),

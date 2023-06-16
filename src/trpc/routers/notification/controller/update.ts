@@ -1,6 +1,6 @@
-import { NotificationUpdateSchema } from "../validators"
-import { ControllerMethod } from "../../types"
 import { Context } from "../../../context"
+import { ControllerMethod } from "../../types"
+import { NotificationUpdateSchema } from "../validators"
 
 type Update = ControllerMethod<
 	Notification,

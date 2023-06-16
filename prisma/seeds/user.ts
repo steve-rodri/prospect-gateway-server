@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker"
-import { Prisma, PrismaClient, Athlete } from "@prisma/client"
+import { Athlete,Prisma, PrismaClient } from "@prisma/client"
+
 import { randomNum } from "../utils/number-utils"
 
 const genFakeUser = (): Prisma.UserCreateInput => ({

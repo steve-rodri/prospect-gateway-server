@@ -1,5 +1,6 @@
-import { randomNum } from "./number-utils"
 import { User } from "@prisma/client"
+
+import { randomNum } from "./number-utils"
 
 export const getTwoRandomUsers = (users: User[]) => {
 	const one = users.at(randomNum(0, users.length - 1)) as User

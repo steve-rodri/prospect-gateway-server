@@ -1,8 +1,9 @@
 import supertokens from "supertokens-node"
 import Dashboard from "supertokens-node/recipe/dashboard"
 import Session from "supertokens-node/recipe/session"
-import { ThirdPartyEmailPassword, EmailMagicLink } from "./recipes"
-import { SUPER_TOKENS_CONNECTION_URI, BASE_URL, CLIENT_URL } from "../env"
+
+import { BASE_URL, CLIENT_URL,SUPER_TOKENS_CONNECTION_URI } from "../env"
+import { EmailMagicLink,ThirdPartyEmailPassword } from "./recipes"
 
 export const initSuperTokens = () => {
 	supertokens.init({

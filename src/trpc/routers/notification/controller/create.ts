@@ -1,8 +1,7 @@
-import { NotificationType } from "../types"
-
-import { NotificationCreateSchema } from "../validators"
-import { ControllerMethod } from "../../types"
 import { Context } from "../../../context"
+import { ControllerMethod } from "../../types"
+import { NotificationType } from "../types"
+import { NotificationCreateSchema } from "../validators"
 
 type Create = ControllerMethod<
 	Notification,

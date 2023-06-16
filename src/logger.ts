@@ -1,5 +1,5 @@
-import winston from "winston"
 import expressWinston from "express-winston"
+import winston from "winston"
 
 const loggerOptions = {
 	transports: [new winston.transports.Console()],

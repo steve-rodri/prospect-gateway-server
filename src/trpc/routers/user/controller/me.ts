@@ -1,8 +1,8 @@
 import { User } from "@prisma/client"
-
-import { ControllerMethod } from "../../types"
-import { Context } from "../../../context"
 import { TRPCError } from "@trpc/server"
+
+import { Context } from "../../../context"
+import { ControllerMethod } from "../../types"
 
 type Me = ControllerMethod<User | null, { ctx: Context }>
 

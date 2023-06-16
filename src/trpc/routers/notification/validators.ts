@@ -1,4 +1,5 @@
 import { z } from "zod"
+
 import { NotificationStatus, NotificationType } from "./types"
 
 export const notificationCreateSchema = z.object({

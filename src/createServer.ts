@@ -5,19 +5,18 @@ import cors from "cors"
 import express from "express"
 import http from "http"
 import supertokens from "supertokens-node"
-import { verifySession } from "supertokens-node/recipe/session/framework/express"
 import {
-	middleware as supertokensMiddleware,
-	errorHandler
-} from "supertokens-node/framework/express"
+	errorHandler,
+	middleware as supertokensMiddleware} from "supertokens-node/framework/express"
+import { verifySession } from "supertokens-node/recipe/session/framework/express"
+import { renderTrpcPanel } from "trpc-panel"
+import { expressHandler } from "trpc-playground/handlers/express"
 
 import { BASE_URL, CLIENT_URL } from "./env"
 import { loggerMiddleware } from "./logger"
+import { initSuperTokens } from "./supertokens/init"
 import { appRouter, createContext } from "./trpc"
 import { ApplicationServer } from "./types"
-import { initSuperTokens } from "./supertokens/init"
-import { renderTrpcPanel } from "trpc-panel"
-import { expressHandler } from "trpc-playground/handlers/express"
 
 const trpcExpressMiddleware = createExpressMiddleware({
 	router: appRouter,

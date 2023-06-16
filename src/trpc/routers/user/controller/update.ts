@@ -1,8 +1,8 @@
 import { User } from "@prisma/client"
 
-import { UserUpdateSchema } from "../validators"
-import { ControllerMethod } from "../../types"
 import { Context } from "../../../context"
+import { ControllerMethod } from "../../types"
+import { UserUpdateSchema } from "../validators"
 
 type Update = ControllerMethod<User, { input: UserUpdateSchema; ctx: Context }>
 

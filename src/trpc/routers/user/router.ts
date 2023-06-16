@@ -1,7 +1,7 @@
-import * as UserController from "./controller"
-import { userUpdateSchema } from "./validators"
 import { router } from "../../init"
 import { protectedProcedure } from "../../protectedProcedure"
+import * as UserController from "./controller"
+import { userUpdateSchema } from "./validators"
 
 export const userRouter = router({
 	me: protectedProcedure

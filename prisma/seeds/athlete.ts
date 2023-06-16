@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker"
-import { Prisma, AthleteStockICP, PrismaClient } from "@prisma/client"
+import { AthleteStockICP, Prisma, PrismaClient } from "@prisma/client"
 
-import { randomNum, ordinal } from "../utils/number-utils"
+import { ordinal,randomNum } from "../utils/number-utils"
 
 const positions = ["C", "PG", "SG", "PF", "SF"]
 const icpTypes = [

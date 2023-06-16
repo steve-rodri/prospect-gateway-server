@@ -1,7 +1,7 @@
 import { Athlete } from "@prisma/client"
 
-import { ControllerMethod } from "../../types"
 import { Context } from "../../../context"
+import { ControllerMethod } from "../../types"
 import { AthleteFindSchema } from "../validators"
 
 type Find = {

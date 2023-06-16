@@ -1,6 +1,6 @@
 import { createServer } from "./createServer"
-import { ApplicationServer } from "./types"
 import { BASE_URL, PORT } from "./env"
+import { ApplicationServer } from "./types"
 
 createServer().then((appServer: ApplicationServer) => {
 	appServer.app.listen(PORT, () => {

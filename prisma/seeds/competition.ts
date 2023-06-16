@@ -1,14 +1,13 @@
 import { faker } from "@faker-js/faker"
 import {
-	User,
-	PrismaClient,
-	CompetitionType,
 	Athlete,
-	Prisma
-} from "@prisma/client"
+	CompetitionType,
+	Prisma,
+	PrismaClient,
+	User} from "@prisma/client"
 
-import { randomNum } from "../utils/number-utils"
 import { getTwoRandomUsers } from "../utils/getTwoRandomUsers"
+import { randomNum } from "../utils/number-utils"
 
 const genFakeCompetition = (
 	competitionTypeId: string,
