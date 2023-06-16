@@ -2,7 +2,7 @@
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
 
-> Node Server to interface with Expo App
+> Express Server to interface with Expo App
 
 ## Install
 
