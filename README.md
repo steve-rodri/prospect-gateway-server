@@ -1,4 +1,4 @@
-# NBA Gateway
+# Gateway Server
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
 
@@ -14,8 +14,8 @@ yarn
 
 ### Have Doppler Installed to use Environment Variables
 
-[Getting Started with Doppler](https://docs.doppler.com/docs/getting-started)
-[How to Install Doppler](https://docs.doppler.com/docs/install-cli)
+- [Getting Started with Doppler](https://docs.doppler.com/docs/getting-started)
+- [How to Install Doppler](https://docs.doppler.com/docs/install-cli)
 
 You need access to the prospectsportsinc workspace in order to access env vars
 
@@ -37,8 +37,8 @@ doppler setup
 Using Brew:
 
 ```sh
-brew install docker
-
+brew install homebrew/cask/docker
+brew install docker-compose
 ```
 
 In a seperate shell run:
@@ -55,7 +55,7 @@ Create a new branch configuration:
 
 ```sh
 doppler configs clone --name "dev_{your name}" && 
-doppler setup -p gateway_server -c "dev_{your name}"
+doppler setup -c "dev_{your name}"
 ```
 
 Change Port:
@@ -153,7 +153,10 @@ yarn db:studio
 
 ## Author
 
-👤 **Prospect**
+👤 **steve-rodri <24379257+steve-rodri@users.noreply.github.com>**
+
+- Github: [@steve-rodri](https://github.com/steve-rodri)
+- LinkedIn: [@steve-rodri](https://linkedin.com/in/steve-rodri)
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
