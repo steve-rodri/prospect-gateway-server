@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "doppler run -- nodemon src/index.ts",
-    "start": "doppler run -- nodemon src/index.ts",
-    "db:studio": "doppler run -- npx prisma studio",
-    "db:start": "doppler run -- docker compose up",
-    "db:migrate": "doppler run -- npx prisma migrate dev",
-    "db:seed": "doppler run -- npx prisma db seed",
+    "dev": "doppler run --token='dp.st.dev.HuyEYdtTl8inM5Seu0Dx9UYnUV28KZpHOHazRUA4G4E' -- nodemon src/index.ts",
+    "start": "doppler run --token='dp.st.dev.HuyEYdtTl8inM5Seu0Dx9UYnUV28KZpHOHazRUA4G4E' -- nodemon src/index.ts",
+    "db:studio": "doppler run --token='dp.st.dev.HuyEYdtTl8inM5Seu0Dx9UYnUV28KZpHOHazRUA4G4E' -- npx prisma studio",
+    "db:start": "doppler run --token='dp.st.dev.HuyEYdtTl8inM5Seu0Dx9UYnUV28KZpHOHazRUA4G4E' -- docker compose up",
+    "db:migrate": "doppler run --token='dp.st.dev.HuyEYdtTl8inM5Seu0Dx9UYnUV28KZpHOHazRUA4G4E' -- npx prisma migrate dev",
+    "db:seed": "doppler run --token='dp.st.dev.HuyEYdtTl8inM5Seu0Dx9UYnUV28KZpHOHazRUA4G4E' -- npx prisma db seed",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx}\"",
     "lint": "eslint --fix \"./**/*.{js,jsx,ts,tsx}\""
   },
