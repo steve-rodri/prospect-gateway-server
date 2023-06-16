@@ -37,7 +37,6 @@ To setup environment variables
 
 ### Have Docker Desktop installed to run the postgres db and supertokens instance
 
-- [Docker Install Page](https://www.docker.com)
 - [SuperTokens](https://supertokens.com)
 
 Using Brew:
@@ -46,6 +45,10 @@ Using Brew:
 brew install homebrew/cask/docker
 brew install docker-compose
 ```
+
+The homebrew/cask/docker app may not work. In that case you can visit:
+
+- [Docker Desktop Install Page](https://www.docker.com/products/docker-desktop/)
 
 Make sure docker desktop is running, then run:
 
@@ -88,17 +91,53 @@ or
 yarn dev
 ```
 
+## Prisma Studio
+
+Run the following to launch a GUI for the database:
+
+```sh
+yarn db:studio
+```
+
 ## tRPC Panel
 
 Visit [http://localhost:5500/panel](http://localhost:5500/panel)
-to view how the api works. In order to use it, you will need to generate
-an access token on the client. Then you want to select headers at the top right
-and add a header. The key should be "Authorization" and the value should be
-"Bearer ACCESS_TOKEN"
+to view how the api works.
+
+In order to use it, you will need to generate an access token on the client or
+run the following command to create a new user:
+
+- Be sure to substitute the email and password values for your own
+
+```sh
+curl -i --location --request POST 'http://localhost:5500/auth/signup' \
+--header 'rid: thirdpartyemailpassword' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data-raw '{ 
+    "formFields": [ 
+        { "id": "email", "value": "<YOUR_EMAIL>" },
+        { "id": "password", "value": "<YOUR_PASSWORD>" },
+        { "id": "name", "value": "" },
+        { "id": "dateOfBirth", "value": "" },
+        { "id": "phone", "value": "" }
+    ] 
+}'
+```
+
+This will create an access token that you can use to query the api.
+
+ 1. Copy the access token from the response headers
+ 2. Go back to [http://localhost:5500/panel](http://localhost:5500/panel)
+ and select headers at the top right.
+ 3. Add a new header. The key should be "Authorization" and the value should
+ be "Bearer ACCESS_TOKEN"
 
 ## Auth Dashboard
 
 Use this command to create a new Admin User for the panel:
+
+- Be sure to substitute your email and password again.
 
 ```sh
 curl --location --request POST 'http://localhost:3567/recipe/dashboard/user' \
@@ -106,8 +145,6 @@ curl --location --request POST 'http://localhost:3567/recipe/dashboard/user' \
 --header 'Content-Type: application/json' \
 --data-raw '{"email": "<YOUR_EMAIL>","password": "<YOUR_PASSWORD>"}'
 ```
-
-Be sure to substitute your email and password in the above command.
 
 Visit [http://localhost:5500/auth/dashboard](http://localhost:5500/auth/dashboard)
 and sign in using your credentials
@@ -117,14 +154,6 @@ and sign in using your credentials
 - Default Server Port: 5500
 - Default Supertokens Port: 3567
 - Default DB Port: 5432
-
-## Prisma Studio
-
-Run the following to launch a GUI for the database:
-
-```sh
-yarn db:studio
-```
 
 ## Author
 
