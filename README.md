@@ -127,7 +127,7 @@ curl -i --location --request POST 'http://localhost:5500/auth/signup' \
 
 This will create an access token that you can use to query the api.
 
- 1. Copy the access token from the response headers
+ 1. Copy the access token from the response headers. The header name should be "st-access-token".
  2. Go back to [http://localhost:5500/panel](http://localhost:5500/panel)
  and select headers at the top right.
  3. Add a new header. The key should be "Authorization" and the value should
